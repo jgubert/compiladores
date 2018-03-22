@@ -1,0 +1,481 @@
+Terminals unused in grammar
+
+   KW_CHAR
+   KW_FLOAT
+   KW_THEN
+   KW_ELSE
+   KW_WHILE
+   KW_FOR
+   KW_READ
+   KW_RETURN
+   KW_PRINT
+   OPERATOR_LE
+   OPERATOR_GE
+   OPERATOR_EQ
+   OPERATOR_NE
+   OPERATOR_AND
+   OPERATOR_OR
+   LIT_REAL
+   LIT_CHAR
+   LIT_STRING
+   TOKEN_ERROR
+
+
+State 37 conflicts: 2 shift/reduce
+State 38 conflicts: 2 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: decl
+
+    2 decl: dec decl
+    3     | %empty
+
+    4 dec: KW_INT TK_IDENTIFIER ';'
+    5    | KW_INT TK_IDENTIFIER '(' paramlist ')' body
+
+    6 paramlist: TK_IDENTIFIER rest
+
+    7 rest: ',' TK_IDENTIFIER rest
+    8     | %empty
+
+    9 body: '{' lcmd '}'
+
+   10 lcmd: cmd lcmd
+   11     | %empty
+
+   12 cmd: TK_IDENTIFIER '=' exp
+   13    | KW_IF '(' exp ')' cmd cmd
+
+   14 exp: TK_IDENTIFIER
+   15    | LIT_INTEGER
+   16    | exp '+' exp
+   17    | exp '-' exp
+   18    | TK_IDENTIFIER '(' ')'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 5 13 18
+')' (41) 5 13 18
+'+' (43) 16
+',' (44) 7
+'-' (45) 17
+';' (59) 4
+'=' (61) 12
+'{' (123) 9
+'}' (125) 9
+error (256)
+KW_CHAR (258)
+KW_INT (259) 4 5
+KW_FLOAT (260)
+KW_IF (261) 13
+KW_THEN (262)
+KW_ELSE (263)
+KW_WHILE (264)
+KW_FOR (265)
+KW_READ (266)
+KW_RETURN (267)
+KW_PRINT (268)
+OPERATOR_LE (269)
+OPERATOR_GE (270)
+OPERATOR_EQ (271)
+OPERATOR_NE (272)
+OPERATOR_AND (273)
+OPERATOR_OR (274)
+TK_IDENTIFIER (275) 4 5 6 7 12 14 18
+LIT_INTEGER (276) 15
+LIT_REAL (277)
+LIT_CHAR (278)
+LIT_STRING (279)
+TOKEN_ERROR (280)
+
+
+Nonterminals, with rules where they appear
+
+$accept (35)
+    on left: 0
+program (36)
+    on left: 1, on right: 0
+decl (37)
+    on left: 2 3, on right: 1 2
+dec (38)
+    on left: 4 5, on right: 2
+paramlist (39)
+    on left: 6, on right: 5
+rest (40)
+    on left: 7 8, on right: 6 7
+body (41)
+    on left: 9, on right: 5
+lcmd (42)
+    on left: 10 11, on right: 9 10
+cmd (43)
+    on left: 12 13, on right: 10 13
+exp (44)
+    on left: 14 15 16 17 18, on right: 12 13 16 17
+
+
+State 0
+
+    0 $accept: . program $end
+
+    KW_INT  shift, and go to state 1
+
+    $default  reduce using rule 3 (decl)
+
+    program  go to state 2
+    decl     go to state 3
+    dec      go to state 4
+
+
+State 1
+
+    4 dec: KW_INT . TK_IDENTIFIER ';'
+    5    | KW_INT . TK_IDENTIFIER '(' paramlist ')' body
+
+    TK_IDENTIFIER  shift, and go to state 5
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 6
+
+
+State 3
+
+    1 program: decl .
+
+    $default  reduce using rule 1 (program)
+
+
+State 4
+
+    2 decl: dec . decl
+
+    KW_INT  shift, and go to state 1
+
+    $default  reduce using rule 3 (decl)
+
+    decl  go to state 7
+    dec   go to state 4
+
+
+State 5
+
+    4 dec: KW_INT TK_IDENTIFIER . ';'
+    5    | KW_INT TK_IDENTIFIER . '(' paramlist ')' body
+
+    ';'  shift, and go to state 8
+    '('  shift, and go to state 9
+
+
+State 6
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 7
+
+    2 decl: dec decl .
+
+    $default  reduce using rule 2 (decl)
+
+
+State 8
+
+    4 dec: KW_INT TK_IDENTIFIER ';' .
+
+    $default  reduce using rule 4 (dec)
+
+
+State 9
+
+    5 dec: KW_INT TK_IDENTIFIER '(' . paramlist ')' body
+
+    TK_IDENTIFIER  shift, and go to state 10
+
+    paramlist  go to state 11
+
+
+State 10
+
+    6 paramlist: TK_IDENTIFIER . rest
+
+    ','  shift, and go to state 12
+
+    $default  reduce using rule 8 (rest)
+
+    rest  go to state 13
+
+
+State 11
+
+    5 dec: KW_INT TK_IDENTIFIER '(' paramlist . ')' body
+
+    ')'  shift, and go to state 14
+
+
+State 12
+
+    7 rest: ',' . TK_IDENTIFIER rest
+
+    TK_IDENTIFIER  shift, and go to state 15
+
+
+State 13
+
+    6 paramlist: TK_IDENTIFIER rest .
+
+    $default  reduce using rule 6 (paramlist)
+
+
+State 14
+
+    5 dec: KW_INT TK_IDENTIFIER '(' paramlist ')' . body
+
+    '{'  shift, and go to state 16
+
+    body  go to state 17
+
+
+State 15
+
+    7 rest: ',' TK_IDENTIFIER . rest
+
+    ','  shift, and go to state 12
+
+    $default  reduce using rule 8 (rest)
+
+    rest  go to state 18
+
+
+State 16
+
+    9 body: '{' . lcmd '}'
+
+    KW_IF          shift, and go to state 19
+    TK_IDENTIFIER  shift, and go to state 20
+
+    $default  reduce using rule 11 (lcmd)
+
+    lcmd  go to state 21
+    cmd   go to state 22
+
+
+State 17
+
+    5 dec: KW_INT TK_IDENTIFIER '(' paramlist ')' body .
+
+    $default  reduce using rule 5 (dec)
+
+
+State 18
+
+    7 rest: ',' TK_IDENTIFIER rest .
+
+    $default  reduce using rule 7 (rest)
+
+
+State 19
+
+   13 cmd: KW_IF . '(' exp ')' cmd cmd
+
+    '('  shift, and go to state 23
+
+
+State 20
+
+   12 cmd: TK_IDENTIFIER . '=' exp
+
+    '='  shift, and go to state 24
+
+
+State 21
+
+    9 body: '{' lcmd . '}'
+
+    '}'  shift, and go to state 25
+
+
+State 22
+
+   10 lcmd: cmd . lcmd
+
+    KW_IF          shift, and go to state 19
+    TK_IDENTIFIER  shift, and go to state 20
+
+    $default  reduce using rule 11 (lcmd)
+
+    lcmd  go to state 26
+    cmd   go to state 22
+
+
+State 23
+
+   13 cmd: KW_IF '(' . exp ')' cmd cmd
+
+    TK_IDENTIFIER  shift, and go to state 27
+    LIT_INTEGER    shift, and go to state 28
+
+    exp  go to state 29
+
+
+State 24
+
+   12 cmd: TK_IDENTIFIER '=' . exp
+
+    TK_IDENTIFIER  shift, and go to state 27
+    LIT_INTEGER    shift, and go to state 28
+
+    exp  go to state 30
+
+
+State 25
+
+    9 body: '{' lcmd '}' .
+
+    $default  reduce using rule 9 (body)
+
+
+State 26
+
+   10 lcmd: cmd lcmd .
+
+    $default  reduce using rule 10 (lcmd)
+
+
+State 27
+
+   14 exp: TK_IDENTIFIER .
+   18    | TK_IDENTIFIER . '(' ')'
+
+    '('  shift, and go to state 31
+
+    $default  reduce using rule 14 (exp)
+
+
+State 28
+
+   15 exp: LIT_INTEGER .
+
+    $default  reduce using rule 15 (exp)
+
+
+State 29
+
+   13 cmd: KW_IF '(' exp . ')' cmd cmd
+   16 exp: exp . '+' exp
+   17    | exp . '-' exp
+
+    ')'  shift, and go to state 32
+    '+'  shift, and go to state 33
+    '-'  shift, and go to state 34
+
+
+State 30
+
+   12 cmd: TK_IDENTIFIER '=' exp .
+   16 exp: exp . '+' exp
+   17    | exp . '-' exp
+
+    '+'  shift, and go to state 33
+    '-'  shift, and go to state 34
+
+    $default  reduce using rule 12 (cmd)
+
+
+State 31
+
+   18 exp: TK_IDENTIFIER '(' . ')'
+
+    ')'  shift, and go to state 35
+
+
+State 32
+
+   13 cmd: KW_IF '(' exp ')' . cmd cmd
+
+    KW_IF          shift, and go to state 19
+    TK_IDENTIFIER  shift, and go to state 20
+
+    cmd  go to state 36
+
+
+State 33
+
+   16 exp: exp '+' . exp
+
+    TK_IDENTIFIER  shift, and go to state 27
+    LIT_INTEGER    shift, and go to state 28
+
+    exp  go to state 37
+
+
+State 34
+
+   17 exp: exp '-' . exp
+
+    TK_IDENTIFIER  shift, and go to state 27
+    LIT_INTEGER    shift, and go to state 28
+
+    exp  go to state 38
+
+
+State 35
+
+   18 exp: TK_IDENTIFIER '(' ')' .
+
+    $default  reduce using rule 18 (exp)
+
+
+State 36
+
+   13 cmd: KW_IF '(' exp ')' cmd . cmd
+
+    KW_IF          shift, and go to state 19
+    TK_IDENTIFIER  shift, and go to state 20
+
+    cmd  go to state 39
+
+
+State 37
+
+   16 exp: exp . '+' exp
+   16    | exp '+' exp .
+   17    | exp . '-' exp
+
+    '+'  shift, and go to state 33
+    '-'  shift, and go to state 34
+
+    '+'       [reduce using rule 16 (exp)]
+    '-'       [reduce using rule 16 (exp)]
+    $default  reduce using rule 16 (exp)
+
+
+State 38
+
+   16 exp: exp . '+' exp
+   17    | exp . '-' exp
+   17    | exp '-' exp .
+
+    '+'  shift, and go to state 33
+    '-'  shift, and go to state 34
+
+    '+'       [reduce using rule 17 (exp)]
+    '-'       [reduce using rule 17 (exp)]
+    $default  reduce using rule 17 (exp)
+
+
+State 39
+
+   13 cmd: KW_IF '(' exp ')' cmd cmd .
+
+    $default  reduce using rule 13 (cmd)
