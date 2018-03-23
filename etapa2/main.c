@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include "tokens.h"
 
 extern int getLineNumber();
 extern int isRunning();
@@ -31,7 +30,7 @@ int main(int argc, char ** argv){
   //hashInit();
   initMe();
 
-	yyparse();	
+	yyparse();
 
   hashPrint();
 

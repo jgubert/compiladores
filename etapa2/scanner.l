@@ -22,8 +22,10 @@
 
 %%
 
+byte					{return KW_BYTE;}
+
 char					{return KW_CHAR;}
-int					{printf("KW INTEIRO\n");return KW_INT;}
+int					{return KW_INT;}
 float					{return KW_FLOAT;}
 if      				{return KW_IF;}
 then					{return KW_THEN;}
@@ -42,9 +44,10 @@ print					{return KW_PRINT;}
 "||"					{return OPERATOR_OR;}
 
 [0-9]+					{hashInsert(SYMBOL_LIT_INTEGER,yytext); return LIT_INTEGER;}
-[a-zA-Z_][a-zA-Z_0-9]*			{printf("IDENTIFICADOR\n"); hashInsert(SYMBOL_IDENTIFIER,yytext); return TK_IDENTIFIER;}
+'.'							{hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
+[a-zA-Z_][a-zA-Z_0-9]*			{hashInsert(SYMBOL_IDENTIFIER,yytext); return TK_IDENTIFIER;}
 [0-9]+"."[0-9]+				{hashInsert(SYMBOL_LIT_REAL,yytext); return LIT_REAL;}
-'.'					{hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
+
 ["]([^"]|\\.)*["]			{hashInsert(SYMBOL_LIT_STRING,yytext); return LIT_STRING;}
 [,;:(){}+-]				{return yytext[0];}
 [*/<>=!&$#]				{return yytext[0];}

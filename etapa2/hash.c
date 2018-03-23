@@ -22,7 +22,6 @@ HASH* hashInsert(int type, char *text){
   HASH *newnode = 0;
 
 	if(hashSearch(address,text)){
-    printf("Achou ID igual!\n");
     return NULL;
   }
 	 //return NULL;
@@ -31,6 +30,7 @@ HASH* hashInsert(int type, char *text){
     newnode->text = calloc(strlen(text)+1,sizeof(char));
     strcpy(newnode->text,text);
     newnode->next = Table[address];
+    newnode->type = type;
     Table[address] = newnode;
   }
   return newnode;
@@ -42,7 +42,7 @@ void hashPrint(void){
 
   for(i = 0; i < HASH_SIZE; i++){
     for(node = Table[i]; node; node = node->next){
-      printf("Table[%d] has %s\n", i, node->text);
+      printf("Table[%d] Type:%d - Text: %s\n", i, node->type ,node->text);
     }
   }
 
