@@ -23,6 +23,10 @@
 %%
 
 byte					{return KW_BYTE;}
+short					{return KW_SHORT;}
+long					{return KW_LONG;}
+double				{return KW_DOUBLE;}
+
 
 char					{return KW_CHAR;}
 int					{return KW_INT;}
@@ -43,15 +47,15 @@ print					{return KW_PRINT;}
 "&&"					{return OPERATOR_AND;}
 "||"					{return OPERATOR_OR;}
 
-[0-9]+					{hashInsert(SYMBOL_LIT_INTEGER,yytext); return LIT_INTEGER;}
-'.'							{hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
-[a-zA-Z_][a-zA-Z_0-9]*			{hashInsert(SYMBOL_IDENTIFIER,yytext); return TK_IDENTIFIER;}
-[0-9]+"."[0-9]+				{hashInsert(SYMBOL_LIT_REAL,yytext); return LIT_REAL;}
+[0-9]+					{printf("Line: %d - Literal INT: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_LIT_INTEGER,yytext); return LIT_INTEGER;}
+'.'							{printf("Line: %d - Literal CHAR: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
+[a-zA-Z_][a-zA-Z_0-9]*			{printf("Line: %d - Identificador: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_IDENTIFIER,yytext); return TK_IDENTIFIER;}
+[0-9]+"."[0-9]+				{printf("Line: %d - Literal REAL: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_LIT_REAL,yytext); return LIT_REAL;}
 
-["]([^"]|\\.)*["]			{hashInsert(SYMBOL_LIT_STRING,yytext); return LIT_STRING;}
-[,;:(){}+-]				{return yytext[0];}
-[*/<>=!&$#]				{return yytext[0];}
-[\[\]]					{return yytext[0];}
+["]([^"]|\\.)*["]			{printf("Line: %d - Literal STRING: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_LIT_STRING,yytext); return LIT_STRING;}
+[,;:(){}+-]				{printf("Line: %d - Symbol: %s \n", getLineNumber(), yytext);return yytext[0];}
+[*/<>=!&$#]				{printf("Line: %d - Symbol: %s \n", getLineNumber(), yytext);return yytext[0];}
+[\[\]]					{printf("Line: %d - Symbol: %s \n", getLineNumber(), yytext);return yytext[0];}
 \n					{lineNumber++;}
 [ \t]
 "//".*
@@ -75,6 +79,10 @@ int isRunning(void){
 
 int getLineNumber(void){
 	return lineNumber;
+}
+
+void stringError(void){
+	printf("Erro: %s \n", yytext);
 }
 
 int yywrap(void){

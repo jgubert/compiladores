@@ -46,9 +46,16 @@ decl: dec decl
 	|
 	;
 
-dec:  KW_INT TK_IDENTIFIER ';'
-	| KW_INT TK_IDENTIFIER '(' paramlist ')' body
-	| TK_IDENTIFIER ':' typevar '=' literal ';'
+dec:  TK_IDENTIFIER ':' typevar '=' literal ';'
+	|	TK_IDENTIFIER ':' typevar '[' LIT_INTEGER ']' decv ';'
+	|	TK_IDENTIFIER ':' typevar '[' LIT_INTEGER ']' ';'
+	| '(' typevar ')' TK_IDENTIFIER '(' paramlist ')' body
+	;
+
+decv:	LIT_INTEGER decv
+	| LIT_CHAR ' ' decv
+	| LIT_REAL ' ' decv
+	|
 	;
 
 typevar:	KW_BYTE
@@ -64,9 +71,12 @@ literal:	LIT_INTEGER
 	;
 
 paramlist: TK_IDENTIFIER rest
+	| literal rest
+	|
 	;
 
 rest: ',' TK_IDENTIFIER rest
+	| ',' literal rest
 	|
 	;
 
@@ -77,15 +87,20 @@ lcmd: cmd lcmd
 	|
 	;
 
-cmd: TK_IDENTIFIER '=' exp
-	| KW_IF '(' exp ')' cmd cmd
-	| KW_THEN cmd cmd
-	| KW_ELSE cmd cmd
-	| KW_WHILE '(' exp ')' cmd cmd
+cmd: TK_IDENTIFIER '=' exp ';'
+	| TK_IDENTIFIER '[' LIT_INTEGER ']' '=' exp ';'
+	| KW_IF '(' exp ')' cmd cmd ';'
+	| KW_THEN cmd cmd ';'
+	| KW_ELSE cmd cmd ';'
+	| KW_WHILE '(' exp ')' cmd cmd ';'
+	| KW_WHILE '(' exp ')' body cmd ';'
+	| KW_PRINT LIT_STRING ';'
+	| KW_READ '>' TK_IDENTIFIER ';'
 	|
 	;
 
 exp: TK_IDENTIFIER
+	| TK_IDENTIFIER '[' exp ']'
 	| LIT_INTEGER
 	| exp '+' exp
 	| exp '-' exp
@@ -100,7 +115,7 @@ exp: TK_IDENTIFIER
 	| exp OPERATOR_NE exp
 	| exp OPERATOR_AND exp
 	| exp OPERATOR_OR exp
-	| TK_IDENTIFIER '(' ')'
+	| TK_IDENTIFIER '(' paramlist ')'
 	;
 
 
@@ -115,5 +130,6 @@ void initMe();
 
 int yyerror(int code){
 	fprintf(stderr, "line: %d - Syntax error!\n", getLineNumber());
+	stringError();
 	exit(3);
 }
