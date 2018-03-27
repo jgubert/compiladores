@@ -46,11 +46,19 @@ decl: dec decl
 	|
 	;
 
-dec:  TK_IDENTIFIER ':' typevar '=' literal ';'
-	|	TK_IDENTIFIER ':' typevar '[' LIT_INTEGER ']' decv ';'
-	|	TK_IDENTIFIER ':' typevar '[' LIT_INTEGER ']' ';'
-	| '(' typevar ')' TK_IDENTIFIER '(' paramlist ')' body
+dec: decvar
+	| decvetor
+	| decfunction
 	;
+
+decvar: TK_IDENTIFIER ':' typevar '=' literal ';'
+	;
+
+decvetor: TK_IDENTIFIER ':' typevar '[' LIT_INTEGER ']' decv ';'
+	|	TK_IDENTIFIER ':' typevar '[' LIT_INTEGER ']' ';'
+	;
+
+decfunction: '(' typevar ')' TK_IDENTIFIER '(' paramlist ')' cmd
 
 decv:	LIT_INTEGER decv
 	| LIT_CHAR ' ' decv
@@ -58,50 +66,72 @@ decv:	LIT_INTEGER decv
 	|
 	;
 
-typevar:	KW_BYTE
+typevar: KW_BYTE
 	| KW_FLOAT
 	| KW_SHORT
 	| KW_LONG
 	| KW_DOUBLE
 	;
 
-literal:	LIT_INTEGER
+literal: LIT_INTEGER
 	| LIT_CHAR
 	| LIT_REAL
 	;
 
-paramlist: TK_IDENTIFIER rest
+paramlist: TK_IDENTIFIER ':' typevar rest
 	| literal rest
+	| TK_IDENTIFIER rest
 	|
 	;
 
-rest: ',' TK_IDENTIFIER rest
+rest: ',' TK_IDENTIFIER ':' typevar rest
 	| ',' literal rest
+	| TK_IDENTIFIER rest
+	|
+	;
+
+
+cmd: attribution
+	| flux_control
+	| inout
+	| body
 	|
 	;
 
 body: '{' lcmd '}'
-;
+	;
 
-lcmd: cmd lcmd
+lcmd: cmd ';' lcmd
+	| dec lcmd
+	| cmd
 	|
 	;
 
-cmd: TK_IDENTIFIER '=' exp ';'
-	| TK_IDENTIFIER '[' LIT_INTEGER ']' '=' exp ';'
-	| KW_IF '(' exp ')' cmd cmd ';'
-	| KW_THEN cmd cmd ';'
-	| KW_ELSE cmd cmd ';'
-	| KW_WHILE '(' exp ')' cmd cmd ';'
-	| KW_WHILE '(' exp ')' body cmd ';'
-	| KW_PRINT LIT_STRING ';'
-	| KW_READ '>' TK_IDENTIFIER ';'
+attribution: TK_IDENTIFIER '=' exp
+	| TK_IDENTIFIER '[' exp ']' '=' exp
+	;
+
+flux_control: KW_IF '(' exp ')' KW_THEN cmd
+	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
+	| KW_WHILE '(' exp ')' cmd
+	;
+
+inout: KW_PRINT print_elem
+	| KW_READ '>' TK_IDENTIFIER
+	| KW_RETURN '(' exp ')'
+	;
+
+print_elem: LIT_STRING
+	| LIT_STRING ',' print_elem
+	| exp
+	| exp ',' print_elem
 	|
 	;
 
 exp: TK_IDENTIFIER
 	| TK_IDENTIFIER '[' exp ']'
 	| LIT_INTEGER
+	| LIT_CHAR
 	| exp '+' exp
 	| exp '-' exp
 	| exp '*' exp
@@ -109,6 +139,7 @@ exp: TK_IDENTIFIER
 	| exp '<' exp
 	| exp '>' exp
 	| '!' exp
+	| '(' exp ')'
 	| exp OPERATOR_LE exp
 	| exp OPERATOR_GE exp
 	| exp OPERATOR_EQ exp
