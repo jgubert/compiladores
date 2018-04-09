@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,63 +45,71 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    KW_BYTE = 258,
-    KW_SHORT = 259,
-    KW_LONG = 260,
-    KW_DOUBLE = 261,
-    KW_CHAR = 262,
-    KW_INT = 263,
-    KW_FLOAT = 264,
-    KW_IF = 265,
-    KW_THEN = 266,
-    KW_ELSE = 267,
-    KW_WHILE = 268,
-    KW_FOR = 269,
-    KW_READ = 270,
-    KW_RETURN = 271,
-    KW_PRINT = 272,
+    KW_CHAR = 258,
+    KW_INT = 259,
+    KW_FLOAT = 260,
+    KW_IF = 261,
+    KW_THEN = 262,
+    KW_ELSE = 263,
+    KW_WHILE = 264,
+    KW_FOR = 265,
+    KW_TO = 266,
+    KW_READ = 267,
+    KW_RETURN = 268,
+    KW_PRINT = 269,
+    OPERATOR_PLUS = 270,
+    OPERATOR_MINUS = 271,
+    OPERATOR_MULT = 272,
     OPERATOR_LE = 273,
     OPERATOR_GE = 274,
     OPERATOR_EQ = 275,
     OPERATOR_NE = 276,
     OPERATOR_AND = 277,
     OPERATOR_OR = 278,
-    TK_IDENTIFIER = 279,
-    LIT_INTEGER = 280,
-    LIT_REAL = 281,
-    LIT_CHAR = 282,
-    LIT_STRING = 283,
-    TOKEN_ERROR = 284
+    OPERATOR_L = 279,
+    OPERATOR_G = 280,
+    OPERATOR_NEG = 281,
+    TK_IDENTIFIER = 282,
+    LIT_INTEGER = 283,
+    LIT_REAL = 284,
+    LIT_CHAR = 285,
+    LIT_STRING = 286,
+    TOKEN_ERROR = 287,
+    OPERATOR_DIV = 288
   };
 #endif
 /* Tokens.  */
-#define KW_BYTE 258
-#define KW_SHORT 259
-#define KW_LONG 260
-#define KW_DOUBLE 261
-#define KW_CHAR 262
-#define KW_INT 263
-#define KW_FLOAT 264
-#define KW_IF 265
-#define KW_THEN 266
-#define KW_ELSE 267
-#define KW_WHILE 268
-#define KW_FOR 269
-#define KW_READ 270
-#define KW_RETURN 271
-#define KW_PRINT 272
+#define KW_CHAR 258
+#define KW_INT 259
+#define KW_FLOAT 260
+#define KW_IF 261
+#define KW_THEN 262
+#define KW_ELSE 263
+#define KW_WHILE 264
+#define KW_FOR 265
+#define KW_TO 266
+#define KW_READ 267
+#define KW_RETURN 268
+#define KW_PRINT 269
+#define OPERATOR_PLUS 270
+#define OPERATOR_MINUS 271
+#define OPERATOR_MULT 272
 #define OPERATOR_LE 273
 #define OPERATOR_GE 274
 #define OPERATOR_EQ 275
 #define OPERATOR_NE 276
 #define OPERATOR_AND 277
 #define OPERATOR_OR 278
-#define TK_IDENTIFIER 279
-#define LIT_INTEGER 280
-#define LIT_REAL 281
-#define LIT_CHAR 282
-#define LIT_STRING 283
-#define TOKEN_ERROR 284
+#define OPERATOR_L 279
+#define OPERATOR_G 280
+#define OPERATOR_NEG 281
+#define TK_IDENTIFIER 282
+#define LIT_INTEGER 283
+#define LIT_REAL 284
+#define LIT_CHAR 285
+#define LIT_STRING 286
+#define TOKEN_ERROR 287
+#define OPERATOR_DIV 288
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

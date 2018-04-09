@@ -1,4 +1,3 @@
-
 %{
 	//João Pedro Gubert de Souza
 	//Samuel Rudnicki
@@ -16,36 +15,40 @@
 #define SYMBOL_LIT_CHAR 4
 #define SYMBOL_LIT_STRING 5
 
+
 %}
 
 %x COMMENT
 
 %%
 
-byte					{return KW_BYTE;}
-short					{return KW_SHORT;}
-long					{return KW_LONG;}
-double				{return KW_DOUBLE;}
-
-
 char					{return KW_CHAR;}
-int					{return KW_INT;}
+int					{printf("ACHEI UM INT\n");return KW_INT;}
 float					{return KW_FLOAT;}
 if      				{return KW_IF;}
 then					{return KW_THEN;}
 else					{return KW_ELSE;}
 while					{return KW_WHILE;}
-for					{return KW_FOR;}
+for					    {return KW_FOR;}
+to					{return KW_TO;}
 read					{return KW_READ;}
 return					{return KW_RETURN;}
 print					{return KW_PRINT;}
 
+"+"						{return OPERATOR_PLUS;}//adicao dos operadores +-*/!><
+"-"						{return OPERATOR_MINUS;}
+"*"						{return OPERATOR_MULT;}
+"/"						{return OPERATOR_DIV;}
 "<="					{return OPERATOR_LE;}
 ">="					{return OPERATOR_GE;}
 "=="					{return OPERATOR_EQ;}
 "!="					{return OPERATOR_NE;}
 "&&"					{return OPERATOR_AND;}
 "||"					{return OPERATOR_OR;}
+"<"					{return OPERATOR_L;}
+">"					{return OPERATOR_G;}
+"!"					{return OPERATOR_NEG;}
+
 
 [0-9]+					{printf("Line: %d - Literal INT: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_LIT_INTEGER,yytext); return LIT_INTEGER;}
 '.'							{printf("Line: %d - Literal CHAR: %s \n", getLineNumber(), yytext);hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
@@ -67,19 +70,20 @@ print					{return KW_PRINT;}
 <COMMENT>.
 
 %%
-
+int getLineNumber(void){
+	return lineNumber;
+}
 void initMe(void){
 	hashInit();
 }
+
 
 
 int isRunning(void){
 	return running;
 }
 
-int getLineNumber(void){
-	return lineNumber;
-}
+
 
 void stringError(void){
 	printf("Erro: %s \n", yytext);
