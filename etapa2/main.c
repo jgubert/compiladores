@@ -8,33 +8,31 @@ extern int getLineNumber();
 extern int isRunning();
 extern FILE * yyin;
 extern int yylex();
-//extern int initMe();
-
 int yyparse (void);
+extern void hashPrint(void);
 
 
 int main(int argc, char ** argv){
 
-  int tok;
+	int tok;
 
-  if(argc < 2){
-    fprintf(stderr, "Please, call: etapa1 file_name.\n");
-    exit(1);
-  }
+	if(argc < 2){
+		fprintf(stderr, "Please, call: etapa1 file_name.\n");
+		exit(1);
+	}
 
-  if((yyin = fopen(argv[1],"r")) == 0){
-    fprintf(stderr, "Cannot open file %s.\n", argv[1]);
-    exit(2);
-  }
+	if((yyin = fopen(argv[1],"r")) == 0){
+		fprintf(stderr, "Cannot open file %s.\n", argv[1]);
+		exit(2);
+	}
 
-  //hashInit();
-  initMe();
+	initMe();
 
 	yyparse();
 
-  hashPrint();
+	hashPrint();
 
-printf("Compilação Concluida!\n");
+	printf("Compilação Concluida!\n");
 
-  exit(0);
+	exit(0);
 }

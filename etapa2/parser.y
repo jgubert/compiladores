@@ -1,10 +1,13 @@
 %{
-	//João Pedro Gubert de Souza
-	//Samuel Rudnicki
-	#include <stdio.h>
-	#include <stdlib.h>
+//João Pedro Gubert de Souza
+//Samuel Rudnicki
 
-void yyerror(int code);
+#include <stdio.h>
+#include <stdlib.h>
+
+int yylex();
+void yyerror(char* erro);
+void stringError(void);
 %}
 
 //adicao de tokens dos operadores novos
@@ -41,7 +44,9 @@ void yyerror(int code);
 %token TOKEN_ERROR
 
 //prioridade de baixo pra cima. Tu sabe se precisa colocar a prioridade de todos os operadores?
-%right OPERATOR_EQ
+%right OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NE
+%left OPERATOR_L OPERATOR_G
+%left OPERATOR_AND OPERATOR_OR
 %left OPERATOR_PLUS OPERATOR_MINUS
 %left OPERATOR_MULT OPERATOR_DIV
 %left OPERATOR_NEG
@@ -67,7 +72,7 @@ decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'
 	|typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';'
 	;
 
-decfunction: typevar TK_IDENTIFIER '(' paramlist ')' cmd
+decfunction: typevar TK_IDENTIFIER '(' paramlist ')' body
 
 decpointer: typevar '#' TK_IDENTIFIER '=' literal ';'
 
@@ -96,7 +101,7 @@ paramlist: typevar TK_IDENTIFIER rest
 
 rest: ',' typevar TK_IDENTIFIER rest
 	| ',' literal rest
-	| TK_IDENTIFIER rest
+	| ',' TK_IDENTIFIER rest
 	|
 	;
 
@@ -114,7 +119,6 @@ body: '{' lcmd '}'
 lcmd: cmd ';' lcmd
 	| dec lcmd
 	| cmd
-	|
 	;
 
 attribution: TK_IDENTIFIER '=' exp
@@ -132,11 +136,12 @@ inout: KW_PRINT print_elem
 	| KW_RETURN exp
 	;
 
-print_elem: LIT_STRING print_elem
+print_elem: LIT_STRING
+	| LIT_STRING print_elem
 	| LIT_STRING ' ' print_elem
+	| exp
 	| exp print_elem
 	| exp ' ' print_elem
-	|
 	;
 
 exp: TK_IDENTIFIER
@@ -163,7 +168,6 @@ exp: TK_IDENTIFIER
 	;
 
 
-
 %%
 
 
@@ -173,7 +177,7 @@ void initMe();
 
 #include "main.c"
 
-void yyerror(int code){
+void yyerror(char *erro){
 	fprintf(stderr, "line: %d - Syntax error!\n", getLineNumber());
 	stringError();
 	exit(3);

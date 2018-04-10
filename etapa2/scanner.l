@@ -2,11 +2,15 @@
 	//João Pedro Gubert de Souza
 	//Samuel Rudnicki
 
-	#include "y.tab.h"
-	#include "hash.c"
+#include "y.tab.h"
+#include "hash.c"
 
-	int lineNumber = 1;
-	int running = 1;
+int getLineNumber(void);
+void initMe(void);
+int isRunning(void);
+
+int lineNumber = 1;
+int running = 1;
 
 #define SYMBOL_UNDEFINED 0
 #define SYMBOL_IDENTIFIER 1
@@ -23,7 +27,7 @@
 %%
 
 char					{return KW_CHAR;}
-int					{printf("ACHEI UM INT\n");return KW_INT;}
+int					{return KW_INT;}
 float					{return KW_FLOAT;}
 if      				{return KW_IF;}
 then					{return KW_THEN;}
@@ -70,14 +74,14 @@ print					{return KW_PRINT;}
 <COMMENT>.
 
 %%
+
 int getLineNumber(void){
 	return lineNumber;
 }
+
 void initMe(void){
 	hashInit();
 }
-
-
 
 int isRunning(void){
 	return running;
