@@ -10,7 +10,7 @@ typedef struct hash_node{
   int type;
   char *text;
   struct hash_node *next;
-}HASH;
+} HASH;
 
 void hashInit(void);
 HASH* hashInsert(int type, char *text);

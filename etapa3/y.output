@@ -1,0 +1,2360 @@
+Terminais sem uso na gramática
+
+   TOKEN_ERROR
+
+
+Estado 80 conflitos: 1 de deslocamento/redução
+Estado 150 conflitos: 1 de deslocamento/redução
+
+
+Gramática
+
+    0 $accept: program $end
+
+    1 program: decl
+
+    2 decl: dec decl
+    3     | %empty
+
+    4 dec: decvar
+    5    | decvetor
+    6    | decfunction
+    7    | decpointer
+
+    8 decvar: typevar TK_IDENTIFIER '=' literal ';'
+
+    9 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'
+   10         | typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';'
+
+   11 decfunction: typevar TK_IDENTIFIER '(' paramlist ')' body
+
+   12 decpointer: typevar '#' TK_IDENTIFIER '=' literal ';'
+
+   13 decv: LIT_INTEGER decv
+   14     | LIT_CHAR decv
+   15     | LIT_REAL decv
+   16     | ' ' decv
+   17     | %empty
+
+   18 typevar: KW_CHAR
+   19        | KW_INT
+   20        | KW_FLOAT
+
+   21 literal: LIT_INTEGER
+   22        | LIT_CHAR
+   23        | LIT_REAL
+
+   24 paramlist: typevar TK_IDENTIFIER rest
+   25          | literal rest
+   26          | TK_IDENTIFIER rest
+   27          | %empty
+
+   28 rest: ',' typevar TK_IDENTIFIER rest
+   29     | ',' literal rest
+   30     | ',' TK_IDENTIFIER rest
+   31     | %empty
+
+   32 cmd: attribution
+   33    | flux_control
+   34    | inout
+   35    | body
+   36    | %empty
+
+   37 body: '{' lcmd '}'
+
+   38 lcmd: cmd ';' lcmd
+   39     | dec lcmd
+   40     | cmd
+
+   41 attribution: TK_IDENTIFIER '=' exp
+   42            | TK_IDENTIFIER '[' exp ']' '=' exp
+
+   43 flux_control: KW_IF '(' exp ')' KW_THEN cmd
+   44             | KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
+   45             | KW_WHILE '(' exp ')' cmd
+   46             | KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp ')' cmd
+
+   47 inout: KW_PRINT print_elem
+   48      | KW_READ TK_IDENTIFIER
+   49      | KW_RETURN exp
+
+   50 print_elem: LIT_STRING
+   51           | LIT_STRING print_elem
+   52           | LIT_STRING ' ' print_elem
+   53           | exp
+   54           | exp print_elem
+   55           | exp ' ' print_elem
+
+   56 exp: TK_IDENTIFIER
+   57    | TK_IDENTIFIER '[' exp ']'
+   58    | '#' TK_IDENTIFIER
+   59    | '&' TK_IDENTIFIER
+   60    | LIT_INTEGER
+   61    | LIT_CHAR
+   62    | exp OPERATOR_PLUS exp
+   63    | exp OPERATOR_MINUS exp
+   64    | exp OPERATOR_MULT exp
+   65    | exp OPERATOR_DIV exp
+   66    | exp OPERATOR_L exp
+   67    | exp OPERATOR_G exp
+   68    | OPERATOR_NEG exp
+   69    | '(' exp ')'
+   70    | exp OPERATOR_LE exp
+   71    | exp OPERATOR_GE exp
+   72    | exp OPERATOR_EQ exp
+   73    | exp OPERATOR_NE exp
+   74    | exp OPERATOR_AND exp
+   75    | exp OPERATOR_OR exp
+   76    | TK_IDENTIFIER '(' paramlist ')'
+
+
+Terminais, com as regras onde eles aparecem
+
+$end (0) 0
+' ' (32) 16 52 55
+'#' (35) 12 58
+'&' (38) 59
+'(' (40) 11 43 44 45 46 69 76
+')' (41) 11 43 44 45 46 69 76
+',' (44) 28 29 30
+':' (58) 9
+';' (59) 8 9 10 12 38
+'=' (61) 8 12 41 42 46
+'[' (91) 9 10 42 57
+']' (93) 9 10 42 57
+'{' (123) 37
+'}' (125) 37
+error (256)
+KW_CHAR (258) 18
+KW_INT (259) 19
+KW_FLOAT (260) 20
+KW_IF (261) 43 44
+KW_THEN (262) 43 44
+KW_ELSE (263) 44
+KW_WHILE (264) 45
+KW_FOR (265) 46
+KW_TO (266) 46
+KW_READ (267) 48
+KW_RETURN (268) 49
+KW_PRINT (269) 47
+OPERATOR_PLUS (270) 62
+OPERATOR_MINUS (271) 63
+OPERATOR_MULT (272) 64
+OPERATOR_LE (273) 70
+OPERATOR_GE (274) 71
+OPERATOR_EQ (275) 72
+OPERATOR_NE (276) 73
+OPERATOR_AND (277) 74
+OPERATOR_OR (278) 75
+OPERATOR_L (279) 66
+OPERATOR_G (280) 67
+OPERATOR_NEG (281) 68
+TK_IDENTIFIER (282) 8 9 10 11 12 24 26 28 30 41 42 46 48 56 57 58 59
+    76
+LIT_INTEGER (283) 9 10 13 21 60
+LIT_REAL (284) 15 23
+LIT_CHAR (285) 14 22 61
+LIT_STRING (286) 50 51 52
+TOKEN_ERROR (287)
+OPERATOR_DIV (288) 65
+
+
+Não terminais com as regras onde eles aparecem
+
+$accept (47)
+    à esquerda: 0
+program (48)
+    à esquerda: 1, à direita: 0
+decl (49)
+    à esquerda: 2 3, à direita: 1 2
+dec (50)
+    à esquerda: 4 5 6 7, à direita: 2 39
+decvar (51)
+    à esquerda: 8, à direita: 4
+decvetor (52)
+    à esquerda: 9 10, à direita: 5
+decfunction (53)
+    à esquerda: 11, à direita: 6
+decpointer (54)
+    à esquerda: 12, à direita: 7
+decv (55)
+    à esquerda: 13 14 15 16 17, à direita: 9 13 14 15 16
+typevar (56)
+    à esquerda: 18 19 20, à direita: 8 9 10 11 12 24 28
+literal (57)
+    à esquerda: 21 22 23, à direita: 8 12 25 29
+paramlist (58)
+    à esquerda: 24 25 26 27, à direita: 11 76
+rest (59)
+    à esquerda: 28 29 30 31, à direita: 24 25 26 28 29 30
+cmd (60)
+    à esquerda: 32 33 34 35 36, à direita: 38 40 43 44 45 46
+body (61)
+    à esquerda: 37, à direita: 11 35
+lcmd (62)
+    à esquerda: 38 39 40, à direita: 37 38 39
+attribution (63)
+    à esquerda: 41 42, à direita: 32
+flux_control (64)
+    à esquerda: 43 44 45 46, à direita: 33
+inout (65)
+    à esquerda: 47 48 49, à direita: 34
+print_elem (66)
+    à esquerda: 50 51 52 53 54 55, à direita: 47 51 52 54 55
+exp (67)
+    à esquerda: 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72
+    73 74 75 76, à direita: 41 42 43 44 45 46 49 53 54 55 57 62 63
+    64 65 66 67 68 69 70 71 72 73 74 75
+
+
+Estado 0
+
+    0 $accept: . program $end
+
+    KW_CHAR   deslocar, e ir ao estado 1
+    KW_INT    deslocar, e ir ao estado 2
+    KW_FLOAT  deslocar, e ir ao estado 3
+
+    $padrão  reduzir usando a regra 3 (decl)
+
+    program      ir ao estado 4
+    decl         ir ao estado 5
+    dec          ir ao estado 6
+    decvar       ir ao estado 7
+    decvetor     ir ao estado 8
+    decfunction  ir ao estado 9
+    decpointer   ir ao estado 10
+    typevar      ir ao estado 11
+
+
+Estado 1
+
+   18 typevar: KW_CHAR .
+
+    $padrão  reduzir usando a regra 18 (typevar)
+
+
+Estado 2
+
+   19 typevar: KW_INT .
+
+    $padrão  reduzir usando a regra 19 (typevar)
+
+
+Estado 3
+
+   20 typevar: KW_FLOAT .
+
+    $padrão  reduzir usando a regra 20 (typevar)
+
+
+Estado 4
+
+    0 $accept: program . $end
+
+    $end  deslocar, e ir ao estado 12
+
+
+Estado 5
+
+    1 program: decl .
+
+    $padrão  reduzir usando a regra 1 (program)
+
+
+Estado 6
+
+    2 decl: dec . decl
+
+    KW_CHAR   deslocar, e ir ao estado 1
+    KW_INT    deslocar, e ir ao estado 2
+    KW_FLOAT  deslocar, e ir ao estado 3
+
+    $padrão  reduzir usando a regra 3 (decl)
+
+    decl         ir ao estado 13
+    dec          ir ao estado 6
+    decvar       ir ao estado 7
+    decvetor     ir ao estado 8
+    decfunction  ir ao estado 9
+    decpointer   ir ao estado 10
+    typevar      ir ao estado 11
+
+
+Estado 7
+
+    4 dec: decvar .
+
+    $padrão  reduzir usando a regra 4 (dec)
+
+
+Estado 8
+
+    5 dec: decvetor .
+
+    $padrão  reduzir usando a regra 5 (dec)
+
+
+Estado 9
+
+    6 dec: decfunction .
+
+    $padrão  reduzir usando a regra 6 (dec)
+
+
+Estado 10
+
+    7 dec: decpointer .
+
+    $padrão  reduzir usando a regra 7 (dec)
+
+
+Estado 11
+
+    8 decvar: typevar . TK_IDENTIFIER '=' literal ';'
+    9 decvetor: typevar . TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'
+   10         | typevar . TK_IDENTIFIER '[' LIT_INTEGER ']' ';'
+   11 decfunction: typevar . TK_IDENTIFIER '(' paramlist ')' body
+   12 decpointer: typevar . '#' TK_IDENTIFIER '=' literal ';'
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 14
+    '#'            deslocar, e ir ao estado 15
+
+
+Estado 12
+
+    0 $accept: program $end .
+
+    $padrão  aceitar
+
+
+Estado 13
+
+    2 decl: dec decl .
+
+    $padrão  reduzir usando a regra 2 (decl)
+
+
+Estado 14
+
+    8 decvar: typevar TK_IDENTIFIER . '=' literal ';'
+    9 decvetor: typevar TK_IDENTIFIER . '[' LIT_INTEGER ']' ':' decv ';'
+   10         | typevar TK_IDENTIFIER . '[' LIT_INTEGER ']' ';'
+   11 decfunction: typevar TK_IDENTIFIER . '(' paramlist ')' body
+
+    '='  deslocar, e ir ao estado 16
+    '['  deslocar, e ir ao estado 17
+    '('  deslocar, e ir ao estado 18
+
+
+Estado 15
+
+   12 decpointer: typevar '#' . TK_IDENTIFIER '=' literal ';'
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 19
+
+
+Estado 16
+
+    8 decvar: typevar TK_IDENTIFIER '=' . literal ';'
+
+    LIT_INTEGER  deslocar, e ir ao estado 20
+    LIT_REAL     deslocar, e ir ao estado 21
+    LIT_CHAR     deslocar, e ir ao estado 22
+
+    literal  ir ao estado 23
+
+
+Estado 17
+
+    9 decvetor: typevar TK_IDENTIFIER '[' . LIT_INTEGER ']' ':' decv ';'
+   10         | typevar TK_IDENTIFIER '[' . LIT_INTEGER ']' ';'
+
+    LIT_INTEGER  deslocar, e ir ao estado 24
+
+
+Estado 18
+
+   11 decfunction: typevar TK_IDENTIFIER '(' . paramlist ')' body
+
+    KW_CHAR        deslocar, e ir ao estado 1
+    KW_INT         deslocar, e ir ao estado 2
+    KW_FLOAT       deslocar, e ir ao estado 3
+    TK_IDENTIFIER  deslocar, e ir ao estado 25
+    LIT_INTEGER    deslocar, e ir ao estado 20
+    LIT_REAL       deslocar, e ir ao estado 21
+    LIT_CHAR       deslocar, e ir ao estado 22
+
+    $padrão  reduzir usando a regra 27 (paramlist)
+
+    typevar    ir ao estado 26
+    literal    ir ao estado 27
+    paramlist  ir ao estado 28
+
+
+Estado 19
+
+   12 decpointer: typevar '#' TK_IDENTIFIER . '=' literal ';'
+
+    '='  deslocar, e ir ao estado 29
+
+
+Estado 20
+
+   21 literal: LIT_INTEGER .
+
+    $padrão  reduzir usando a regra 21 (literal)
+
+
+Estado 21
+
+   23 literal: LIT_REAL .
+
+    $padrão  reduzir usando a regra 23 (literal)
+
+
+Estado 22
+
+   22 literal: LIT_CHAR .
+
+    $padrão  reduzir usando a regra 22 (literal)
+
+
+Estado 23
+
+    8 decvar: typevar TK_IDENTIFIER '=' literal . ';'
+
+    ';'  deslocar, e ir ao estado 30
+
+
+Estado 24
+
+    9 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER . ']' ':' decv ';'
+   10         | typevar TK_IDENTIFIER '[' LIT_INTEGER . ']' ';'
+
+    ']'  deslocar, e ir ao estado 31
+
+
+Estado 25
+
+   26 paramlist: TK_IDENTIFIER . rest
+
+    ','  deslocar, e ir ao estado 32
+
+    $padrão  reduzir usando a regra 31 (rest)
+
+    rest  ir ao estado 33
+
+
+Estado 26
+
+   24 paramlist: typevar . TK_IDENTIFIER rest
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 34
+
+
+Estado 27
+
+   25 paramlist: literal . rest
+
+    ','  deslocar, e ir ao estado 32
+
+    $padrão  reduzir usando a regra 31 (rest)
+
+    rest  ir ao estado 35
+
+
+Estado 28
+
+   11 decfunction: typevar TK_IDENTIFIER '(' paramlist . ')' body
+
+    ')'  deslocar, e ir ao estado 36
+
+
+Estado 29
+
+   12 decpointer: typevar '#' TK_IDENTIFIER '=' . literal ';'
+
+    LIT_INTEGER  deslocar, e ir ao estado 20
+    LIT_REAL     deslocar, e ir ao estado 21
+    LIT_CHAR     deslocar, e ir ao estado 22
+
+    literal  ir ao estado 37
+
+
+Estado 30
+
+    8 decvar: typevar TK_IDENTIFIER '=' literal ';' .
+
+    $padrão  reduzir usando a regra 8 (decvar)
+
+
+Estado 31
+
+    9 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' . ':' decv ';'
+   10         | typevar TK_IDENTIFIER '[' LIT_INTEGER ']' . ';'
+
+    ';'  deslocar, e ir ao estado 38
+    ':'  deslocar, e ir ao estado 39
+
+
+Estado 32
+
+   28 rest: ',' . typevar TK_IDENTIFIER rest
+   29     | ',' . literal rest
+   30     | ',' . TK_IDENTIFIER rest
+
+    KW_CHAR        deslocar, e ir ao estado 1
+    KW_INT         deslocar, e ir ao estado 2
+    KW_FLOAT       deslocar, e ir ao estado 3
+    TK_IDENTIFIER  deslocar, e ir ao estado 40
+    LIT_INTEGER    deslocar, e ir ao estado 20
+    LIT_REAL       deslocar, e ir ao estado 21
+    LIT_CHAR       deslocar, e ir ao estado 22
+
+    typevar  ir ao estado 41
+    literal  ir ao estado 42
+
+
+Estado 33
+
+   26 paramlist: TK_IDENTIFIER rest .
+
+    $padrão  reduzir usando a regra 26 (paramlist)
+
+
+Estado 34
+
+   24 paramlist: typevar TK_IDENTIFIER . rest
+
+    ','  deslocar, e ir ao estado 32
+
+    $padrão  reduzir usando a regra 31 (rest)
+
+    rest  ir ao estado 43
+
+
+Estado 35
+
+   25 paramlist: literal rest .
+
+    $padrão  reduzir usando a regra 25 (paramlist)
+
+
+Estado 36
+
+   11 decfunction: typevar TK_IDENTIFIER '(' paramlist ')' . body
+
+    '{'  deslocar, e ir ao estado 44
+
+    body  ir ao estado 45
+
+
+Estado 37
+
+   12 decpointer: typevar '#' TK_IDENTIFIER '=' literal . ';'
+
+    ';'  deslocar, e ir ao estado 46
+
+
+Estado 38
+
+   10 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';' .
+
+    $padrão  reduzir usando a regra 10 (decvetor)
+
+
+Estado 39
+
+    9 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' . decv ';'
+
+    LIT_INTEGER  deslocar, e ir ao estado 47
+    LIT_REAL     deslocar, e ir ao estado 48
+    LIT_CHAR     deslocar, e ir ao estado 49
+    ' '          deslocar, e ir ao estado 50
+
+    $padrão  reduzir usando a regra 17 (decv)
+
+    decv  ir ao estado 51
+
+
+Estado 40
+
+   30 rest: ',' TK_IDENTIFIER . rest
+
+    ','  deslocar, e ir ao estado 32
+
+    $padrão  reduzir usando a regra 31 (rest)
+
+    rest  ir ao estado 52
+
+
+Estado 41
+
+   28 rest: ',' typevar . TK_IDENTIFIER rest
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 53
+
+
+Estado 42
+
+   29 rest: ',' literal . rest
+
+    ','  deslocar, e ir ao estado 32
+
+    $padrão  reduzir usando a regra 31 (rest)
+
+    rest  ir ao estado 54
+
+
+Estado 43
+
+   24 paramlist: typevar TK_IDENTIFIER rest .
+
+    $padrão  reduzir usando a regra 24 (paramlist)
+
+
+Estado 44
+
+   37 body: '{' . lcmd '}'
+
+    KW_CHAR        deslocar, e ir ao estado 1
+    KW_INT         deslocar, e ir ao estado 2
+    KW_FLOAT       deslocar, e ir ao estado 3
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    dec           ir ao estado 62
+    decvar        ir ao estado 7
+    decvetor      ir ao estado 8
+    decfunction   ir ao estado 9
+    decpointer    ir ao estado 10
+    typevar       ir ao estado 11
+    cmd           ir ao estado 63
+    body          ir ao estado 64
+    lcmd          ir ao estado 65
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 45
+
+   11 decfunction: typevar TK_IDENTIFIER '(' paramlist ')' body .
+
+    $padrão  reduzir usando a regra 11 (decfunction)
+
+
+Estado 46
+
+   12 decpointer: typevar '#' TK_IDENTIFIER '=' literal ';' .
+
+    $padrão  reduzir usando a regra 12 (decpointer)
+
+
+Estado 47
+
+   13 decv: LIT_INTEGER . decv
+
+    LIT_INTEGER  deslocar, e ir ao estado 47
+    LIT_REAL     deslocar, e ir ao estado 48
+    LIT_CHAR     deslocar, e ir ao estado 49
+    ' '          deslocar, e ir ao estado 50
+
+    $padrão  reduzir usando a regra 17 (decv)
+
+    decv  ir ao estado 69
+
+
+Estado 48
+
+   15 decv: LIT_REAL . decv
+
+    LIT_INTEGER  deslocar, e ir ao estado 47
+    LIT_REAL     deslocar, e ir ao estado 48
+    LIT_CHAR     deslocar, e ir ao estado 49
+    ' '          deslocar, e ir ao estado 50
+
+    $padrão  reduzir usando a regra 17 (decv)
+
+    decv  ir ao estado 70
+
+
+Estado 49
+
+   14 decv: LIT_CHAR . decv
+
+    LIT_INTEGER  deslocar, e ir ao estado 47
+    LIT_REAL     deslocar, e ir ao estado 48
+    LIT_CHAR     deslocar, e ir ao estado 49
+    ' '          deslocar, e ir ao estado 50
+
+    $padrão  reduzir usando a regra 17 (decv)
+
+    decv  ir ao estado 71
+
+
+Estado 50
+
+   16 decv: ' ' . decv
+
+    LIT_INTEGER  deslocar, e ir ao estado 47
+    LIT_REAL     deslocar, e ir ao estado 48
+    LIT_CHAR     deslocar, e ir ao estado 49
+    ' '          deslocar, e ir ao estado 50
+
+    $padrão  reduzir usando a regra 17 (decv)
+
+    decv  ir ao estado 72
+
+
+Estado 51
+
+    9 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv . ';'
+
+    ';'  deslocar, e ir ao estado 73
+
+
+Estado 52
+
+   30 rest: ',' TK_IDENTIFIER rest .
+
+    $padrão  reduzir usando a regra 30 (rest)
+
+
+Estado 53
+
+   28 rest: ',' typevar TK_IDENTIFIER . rest
+
+    ','  deslocar, e ir ao estado 32
+
+    $padrão  reduzir usando a regra 31 (rest)
+
+    rest  ir ao estado 74
+
+
+Estado 54
+
+   29 rest: ',' literal rest .
+
+    $padrão  reduzir usando a regra 29 (rest)
+
+
+Estado 55
+
+   43 flux_control: KW_IF . '(' exp ')' KW_THEN cmd
+   44             | KW_IF . '(' exp ')' KW_THEN cmd KW_ELSE cmd
+
+    '('  deslocar, e ir ao estado 75
+
+
+Estado 56
+
+   45 flux_control: KW_WHILE . '(' exp ')' cmd
+
+    '('  deslocar, e ir ao estado 76
+
+
+Estado 57
+
+   46 flux_control: KW_FOR . '(' TK_IDENTIFIER '=' exp KW_TO exp ')' cmd
+
+    '('  deslocar, e ir ao estado 77
+
+
+Estado 58
+
+   48 inout: KW_READ . TK_IDENTIFIER
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 78
+
+
+Estado 59
+
+   49 inout: KW_RETURN . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 86
+
+
+Estado 60
+
+   47 inout: KW_PRINT . print_elem
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    LIT_STRING     deslocar, e ir ao estado 87
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    print_elem  ir ao estado 88
+    exp         ir ao estado 89
+
+
+Estado 61
+
+   41 attribution: TK_IDENTIFIER . '=' exp
+   42            | TK_IDENTIFIER . '[' exp ']' '=' exp
+
+    '='  deslocar, e ir ao estado 90
+    '['  deslocar, e ir ao estado 91
+
+
+Estado 62
+
+   39 lcmd: dec . lcmd
+
+    KW_CHAR        deslocar, e ir ao estado 1
+    KW_INT         deslocar, e ir ao estado 2
+    KW_FLOAT       deslocar, e ir ao estado 3
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    dec           ir ao estado 62
+    decvar        ir ao estado 7
+    decvetor      ir ao estado 8
+    decfunction   ir ao estado 9
+    decpointer    ir ao estado 10
+    typevar       ir ao estado 11
+    cmd           ir ao estado 63
+    body          ir ao estado 64
+    lcmd          ir ao estado 92
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 63
+
+   38 lcmd: cmd . ';' lcmd
+   40     | cmd .
+
+    ';'  deslocar, e ir ao estado 93
+
+    $padrão  reduzir usando a regra 40 (lcmd)
+
+
+Estado 64
+
+   35 cmd: body .
+
+    $padrão  reduzir usando a regra 35 (cmd)
+
+
+Estado 65
+
+   37 body: '{' lcmd . '}'
+
+    '}'  deslocar, e ir ao estado 94
+
+
+Estado 66
+
+   32 cmd: attribution .
+
+    $padrão  reduzir usando a regra 32 (cmd)
+
+
+Estado 67
+
+   33 cmd: flux_control .
+
+    $padrão  reduzir usando a regra 33 (cmd)
+
+
+Estado 68
+
+   34 cmd: inout .
+
+    $padrão  reduzir usando a regra 34 (cmd)
+
+
+Estado 69
+
+   13 decv: LIT_INTEGER decv .
+
+    $padrão  reduzir usando a regra 13 (decv)
+
+
+Estado 70
+
+   15 decv: LIT_REAL decv .
+
+    $padrão  reduzir usando a regra 15 (decv)
+
+
+Estado 71
+
+   14 decv: LIT_CHAR decv .
+
+    $padrão  reduzir usando a regra 14 (decv)
+
+
+Estado 72
+
+   16 decv: ' ' decv .
+
+    $padrão  reduzir usando a regra 16 (decv)
+
+
+Estado 73
+
+    9 decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';' .
+
+    $padrão  reduzir usando a regra 9 (decvetor)
+
+
+Estado 74
+
+   28 rest: ',' typevar TK_IDENTIFIER rest .
+
+    $padrão  reduzir usando a regra 28 (rest)
+
+
+Estado 75
+
+   43 flux_control: KW_IF '(' . exp ')' KW_THEN cmd
+   44             | KW_IF '(' . exp ')' KW_THEN cmd KW_ELSE cmd
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 95
+
+
+Estado 76
+
+   45 flux_control: KW_WHILE '(' . exp ')' cmd
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 96
+
+
+Estado 77
+
+   46 flux_control: KW_FOR '(' . TK_IDENTIFIER '=' exp KW_TO exp ')' cmd
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 97
+
+
+Estado 78
+
+   48 inout: KW_READ TK_IDENTIFIER .
+
+    $padrão  reduzir usando a regra 48 (inout)
+
+
+Estado 79
+
+   68 exp: OPERATOR_NEG . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 98
+
+
+Estado 80
+
+   56 exp: TK_IDENTIFIER .
+   57    | TK_IDENTIFIER . '[' exp ']'
+   76    | TK_IDENTIFIER . '(' paramlist ')'
+
+    '['  deslocar, e ir ao estado 99
+    '('  deslocar, e ir ao estado 100
+
+    '('       [reduzir usando a regra 56 (exp)]
+    $padrão  reduzir usando a regra 56 (exp)
+
+
+Estado 81
+
+   60 exp: LIT_INTEGER .
+
+    $padrão  reduzir usando a regra 60 (exp)
+
+
+Estado 82
+
+   61 exp: LIT_CHAR .
+
+    $padrão  reduzir usando a regra 61 (exp)
+
+
+Estado 83
+
+   69 exp: '(' . exp ')'
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 101
+
+
+Estado 84
+
+   58 exp: '#' . TK_IDENTIFIER
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 102
+
+
+Estado 85
+
+   59 exp: '&' . TK_IDENTIFIER
+
+    TK_IDENTIFIER  deslocar, e ir ao estado 103
+
+
+Estado 86
+
+   49 inout: KW_RETURN exp .
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 49 (inout)
+
+
+Estado 87
+
+   50 print_elem: LIT_STRING .
+   51           | LIT_STRING . print_elem
+   52           | LIT_STRING . ' ' print_elem
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    LIT_STRING     deslocar, e ir ao estado 87
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    ' '            deslocar, e ir ao estado 116
+    '&'            deslocar, e ir ao estado 85
+
+    $padrão  reduzir usando a regra 50 (print_elem)
+
+    print_elem  ir ao estado 117
+    exp         ir ao estado 89
+
+
+Estado 88
+
+   47 inout: KW_PRINT print_elem .
+
+    $padrão  reduzir usando a regra 47 (inout)
+
+
+Estado 89
+
+   53 print_elem: exp .
+   54           | exp . print_elem
+   55           | exp . ' ' print_elem
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_NEG    deslocar, e ir ao estado 79
+    TK_IDENTIFIER   deslocar, e ir ao estado 80
+    LIT_INTEGER     deslocar, e ir ao estado 81
+    LIT_CHAR        deslocar, e ir ao estado 82
+    LIT_STRING      deslocar, e ir ao estado 87
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    '('             deslocar, e ir ao estado 83
+    '#'             deslocar, e ir ao estado 84
+    ' '             deslocar, e ir ao estado 118
+    '&'             deslocar, e ir ao estado 85
+
+    $padrão  reduzir usando a regra 53 (print_elem)
+
+    print_elem  ir ao estado 119
+    exp         ir ao estado 89
+
+
+Estado 90
+
+   41 attribution: TK_IDENTIFIER '=' . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 120
+
+
+Estado 91
+
+   42 attribution: TK_IDENTIFIER '[' . exp ']' '=' exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 121
+
+
+Estado 92
+
+   39 lcmd: dec lcmd .
+
+    $padrão  reduzir usando a regra 39 (lcmd)
+
+
+Estado 93
+
+   38 lcmd: cmd ';' . lcmd
+
+    KW_CHAR        deslocar, e ir ao estado 1
+    KW_INT         deslocar, e ir ao estado 2
+    KW_FLOAT       deslocar, e ir ao estado 3
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    dec           ir ao estado 62
+    decvar        ir ao estado 7
+    decvetor      ir ao estado 8
+    decfunction   ir ao estado 9
+    decpointer    ir ao estado 10
+    typevar       ir ao estado 11
+    cmd           ir ao estado 63
+    body          ir ao estado 64
+    lcmd          ir ao estado 122
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 94
+
+   37 body: '{' lcmd '}' .
+
+    $padrão  reduzir usando a regra 37 (body)
+
+
+Estado 95
+
+   43 flux_control: KW_IF '(' exp . ')' KW_THEN cmd
+   44             | KW_IF '(' exp . ')' KW_THEN cmd KW_ELSE cmd
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    ')'             deslocar, e ir ao estado 123
+
+
+Estado 96
+
+   45 flux_control: KW_WHILE '(' exp . ')' cmd
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    ')'             deslocar, e ir ao estado 124
+
+
+Estado 97
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER . '=' exp KW_TO exp ')' cmd
+
+    '='  deslocar, e ir ao estado 125
+
+
+Estado 98
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   68    | OPERATOR_NEG exp .
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    $padrão  reduzir usando a regra 68 (exp)
+
+
+Estado 99
+
+   57 exp: TK_IDENTIFIER '[' . exp ']'
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 126
+
+
+Estado 100
+
+   76 exp: TK_IDENTIFIER '(' . paramlist ')'
+
+    KW_CHAR        deslocar, e ir ao estado 1
+    KW_INT         deslocar, e ir ao estado 2
+    KW_FLOAT       deslocar, e ir ao estado 3
+    TK_IDENTIFIER  deslocar, e ir ao estado 25
+    LIT_INTEGER    deslocar, e ir ao estado 20
+    LIT_REAL       deslocar, e ir ao estado 21
+    LIT_CHAR       deslocar, e ir ao estado 22
+
+    $padrão  reduzir usando a regra 27 (paramlist)
+
+    typevar    ir ao estado 26
+    literal    ir ao estado 27
+    paramlist  ir ao estado 127
+
+
+Estado 101
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   69    | '(' exp . ')'
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    ')'             deslocar, e ir ao estado 128
+
+
+Estado 102
+
+   58 exp: '#' TK_IDENTIFIER .
+
+    $padrão  reduzir usando a regra 58 (exp)
+
+
+Estado 103
+
+   59 exp: '&' TK_IDENTIFIER .
+
+    $padrão  reduzir usando a regra 59 (exp)
+
+
+Estado 104
+
+   62 exp: exp OPERATOR_PLUS . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 129
+
+
+Estado 105
+
+   63 exp: exp OPERATOR_MINUS . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 130
+
+
+Estado 106
+
+   64 exp: exp OPERATOR_MULT . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 131
+
+
+Estado 107
+
+   70 exp: exp OPERATOR_LE . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 132
+
+
+Estado 108
+
+   71 exp: exp OPERATOR_GE . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 133
+
+
+Estado 109
+
+   72 exp: exp OPERATOR_EQ . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 134
+
+
+Estado 110
+
+   73 exp: exp OPERATOR_NE . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 135
+
+
+Estado 111
+
+   74 exp: exp OPERATOR_AND . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 136
+
+
+Estado 112
+
+   75 exp: exp OPERATOR_OR . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 137
+
+
+Estado 113
+
+   66 exp: exp OPERATOR_L . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 138
+
+
+Estado 114
+
+   67 exp: exp OPERATOR_G . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 139
+
+
+Estado 115
+
+   65 exp: exp OPERATOR_DIV . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 140
+
+
+Estado 116
+
+   52 print_elem: LIT_STRING ' ' . print_elem
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    LIT_STRING     deslocar, e ir ao estado 87
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    print_elem  ir ao estado 141
+    exp         ir ao estado 89
+
+
+Estado 117
+
+   51 print_elem: LIT_STRING print_elem .
+
+    $padrão  reduzir usando a regra 51 (print_elem)
+
+
+Estado 118
+
+   55 print_elem: exp ' ' . print_elem
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    LIT_STRING     deslocar, e ir ao estado 87
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    print_elem  ir ao estado 142
+    exp         ir ao estado 89
+
+
+Estado 119
+
+   54 print_elem: exp print_elem .
+
+    $padrão  reduzir usando a regra 54 (print_elem)
+
+
+Estado 120
+
+   41 attribution: TK_IDENTIFIER '=' exp .
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 41 (attribution)
+
+
+Estado 121
+
+   42 attribution: TK_IDENTIFIER '[' exp . ']' '=' exp
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    ']'             deslocar, e ir ao estado 143
+
+
+Estado 122
+
+   38 lcmd: cmd ';' lcmd .
+
+    $padrão  reduzir usando a regra 38 (lcmd)
+
+
+Estado 123
+
+   43 flux_control: KW_IF '(' exp ')' . KW_THEN cmd
+   44             | KW_IF '(' exp ')' . KW_THEN cmd KW_ELSE cmd
+
+    KW_THEN  deslocar, e ir ao estado 144
+
+
+Estado 124
+
+   45 flux_control: KW_WHILE '(' exp ')' . cmd
+
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    cmd           ir ao estado 145
+    body          ir ao estado 64
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 125
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER '=' . exp KW_TO exp ')' cmd
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 146
+
+
+Estado 126
+
+   57 exp: TK_IDENTIFIER '[' exp . ']'
+   62    | exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    ']'             deslocar, e ir ao estado 147
+
+
+Estado 127
+
+   76 exp: TK_IDENTIFIER '(' paramlist . ')'
+
+    ')'  deslocar, e ir ao estado 148
+
+
+Estado 128
+
+   69 exp: '(' exp ')' .
+
+    $padrão  reduzir usando a regra 69 (exp)
+
+
+Estado 129
+
+   62 exp: exp . OPERATOR_PLUS exp
+   62    | exp OPERATOR_PLUS exp .
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_MULT  deslocar, e ir ao estado 106
+    OPERATOR_DIV   deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 62 (exp)
+
+
+Estado 130
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   63    | exp OPERATOR_MINUS exp .
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_MULT  deslocar, e ir ao estado 106
+    OPERATOR_DIV   deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 63 (exp)
+
+
+Estado 131
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   64    | exp OPERATOR_MULT exp .
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    $padrão  reduzir usando a regra 64 (exp)
+
+
+Estado 132
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   70    | exp OPERATOR_LE exp .
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 70 (exp)
+
+
+Estado 133
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   71    | exp OPERATOR_GE exp .
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 71 (exp)
+
+
+Estado 134
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   72    | exp OPERATOR_EQ exp .
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 72 (exp)
+
+
+Estado 135
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   73    | exp OPERATOR_NE exp .
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 73 (exp)
+
+
+Estado 136
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   74    | exp OPERATOR_AND exp .
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 74 (exp)
+
+
+Estado 137
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+   75    | exp OPERATOR_OR exp .
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 75 (exp)
+
+
+Estado 138
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   66    | exp OPERATOR_L exp .
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 66 (exp)
+
+
+Estado 139
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   67    | exp OPERATOR_G exp .
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 67 (exp)
+
+
+Estado 140
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   65    | exp OPERATOR_DIV exp .
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    $padrão  reduzir usando a regra 65 (exp)
+
+
+Estado 141
+
+   52 print_elem: LIT_STRING ' ' print_elem .
+
+    $padrão  reduzir usando a regra 52 (print_elem)
+
+
+Estado 142
+
+   55 print_elem: exp ' ' print_elem .
+
+    $padrão  reduzir usando a regra 55 (print_elem)
+
+
+Estado 143
+
+   42 attribution: TK_IDENTIFIER '[' exp ']' . '=' exp
+
+    '='  deslocar, e ir ao estado 149
+
+
+Estado 144
+
+   43 flux_control: KW_IF '(' exp ')' KW_THEN . cmd
+   44             | KW_IF '(' exp ')' KW_THEN . cmd KW_ELSE cmd
+
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    cmd           ir ao estado 150
+    body          ir ao estado 64
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 145
+
+   45 flux_control: KW_WHILE '(' exp ')' cmd .
+
+    $padrão  reduzir usando a regra 45 (flux_control)
+
+
+Estado 146
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER '=' exp . KW_TO exp ')' cmd
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    KW_TO           deslocar, e ir ao estado 151
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+
+Estado 147
+
+   57 exp: TK_IDENTIFIER '[' exp ']' .
+
+    $padrão  reduzir usando a regra 57 (exp)
+
+
+Estado 148
+
+   76 exp: TK_IDENTIFIER '(' paramlist ')' .
+
+    $padrão  reduzir usando a regra 76 (exp)
+
+
+Estado 149
+
+   42 attribution: TK_IDENTIFIER '[' exp ']' '=' . exp
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 152
+
+
+Estado 150
+
+   43 flux_control: KW_IF '(' exp ')' KW_THEN cmd .
+   44             | KW_IF '(' exp ')' KW_THEN cmd . KW_ELSE cmd
+
+    KW_ELSE  deslocar, e ir ao estado 153
+
+    KW_ELSE   [reduzir usando a regra 43 (flux_control)]
+    $padrão  reduzir usando a regra 43 (flux_control)
+
+
+Estado 151
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO . exp ')' cmd
+
+    OPERATOR_NEG   deslocar, e ir ao estado 79
+    TK_IDENTIFIER  deslocar, e ir ao estado 80
+    LIT_INTEGER    deslocar, e ir ao estado 81
+    LIT_CHAR       deslocar, e ir ao estado 82
+    '('            deslocar, e ir ao estado 83
+    '#'            deslocar, e ir ao estado 84
+    '&'            deslocar, e ir ao estado 85
+
+    exp  ir ao estado 154
+
+
+Estado 152
+
+   42 attribution: TK_IDENTIFIER '[' exp ']' '=' exp .
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 42 (attribution)
+
+
+Estado 153
+
+   44 flux_control: KW_IF '(' exp ')' KW_THEN cmd KW_ELSE . cmd
+
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    cmd           ir ao estado 155
+    body          ir ao estado 64
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 154
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp . ')' cmd
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    OPERATOR_PLUS   deslocar, e ir ao estado 104
+    OPERATOR_MINUS  deslocar, e ir ao estado 105
+    OPERATOR_MULT   deslocar, e ir ao estado 106
+    OPERATOR_LE     deslocar, e ir ao estado 107
+    OPERATOR_GE     deslocar, e ir ao estado 108
+    OPERATOR_EQ     deslocar, e ir ao estado 109
+    OPERATOR_NE     deslocar, e ir ao estado 110
+    OPERATOR_AND    deslocar, e ir ao estado 111
+    OPERATOR_OR     deslocar, e ir ao estado 112
+    OPERATOR_L      deslocar, e ir ao estado 113
+    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 115
+    ')'             deslocar, e ir ao estado 156
+
+
+Estado 155
+
+   44 flux_control: KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd .
+
+    $padrão  reduzir usando a regra 44 (flux_control)
+
+
+Estado 156
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp ')' . cmd
+
+    KW_IF          deslocar, e ir ao estado 55
+    KW_WHILE       deslocar, e ir ao estado 56
+    KW_FOR         deslocar, e ir ao estado 57
+    KW_READ        deslocar, e ir ao estado 58
+    KW_RETURN      deslocar, e ir ao estado 59
+    KW_PRINT       deslocar, e ir ao estado 60
+    TK_IDENTIFIER  deslocar, e ir ao estado 61
+    '{'            deslocar, e ir ao estado 44
+
+    $padrão  reduzir usando a regra 36 (cmd)
+
+    cmd           ir ao estado 157
+    body          ir ao estado 64
+    attribution   ir ao estado 66
+    flux_control  ir ao estado 67
+    inout         ir ao estado 68
+
+
+Estado 157
+
+   46 flux_control: KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp ')' cmd .
+
+    $padrão  reduzir usando a regra 46 (flux_control)

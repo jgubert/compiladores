@@ -1,0 +1,21 @@
+var : float = 12;
+text : float = 'k';
+
+
+(byte) function(){
+	c = a + b
+}
+
+(float) main(a){
+
+while (a>0)
+	b = c;
+
+if (!a) then a = 0;
+
+while (b||c)
+	a = 10;
+
+if ((a+c)>b) then a=0 else a=10;
+
+}
