@@ -60,22 +60,22 @@ extern int yydebug;
     OPERATOR_PLUS = 270,
     OPERATOR_MINUS = 271,
     OPERATOR_MULT = 272,
-    OPERATOR_LE = 273,
-    OPERATOR_GE = 274,
-    OPERATOR_EQ = 275,
-    OPERATOR_NE = 276,
-    OPERATOR_AND = 277,
-    OPERATOR_OR = 278,
-    OPERATOR_L = 279,
-    OPERATOR_G = 280,
-    OPERATOR_NEG = 281,
-    TK_IDENTIFIER = 282,
-    LIT_INTEGER = 283,
-    LIT_REAL = 284,
-    LIT_CHAR = 285,
-    LIT_STRING = 286,
-    TOKEN_ERROR = 287,
-    OPERATOR_DIV = 288
+    OPERATOR_DIV = 273,
+    OPERATOR_LE = 274,
+    OPERATOR_GE = 275,
+    OPERATOR_EQ = 276,
+    OPERATOR_NE = 277,
+    OPERATOR_AND = 278,
+    OPERATOR_OR = 279,
+    OPERATOR_L = 280,
+    OPERATOR_G = 281,
+    OPERATOR_NEG = 282,
+    TK_IDENTIFIER = 283,
+    LIT_INTEGER = 284,
+    LIT_REAL = 285,
+    LIT_CHAR = 286,
+    LIT_STRING = 287,
+    TOKEN_ERROR = 288
   };
 #endif
 /* Tokens.  */
@@ -94,29 +94,29 @@ extern int yydebug;
 #define OPERATOR_PLUS 270
 #define OPERATOR_MINUS 271
 #define OPERATOR_MULT 272
-#define OPERATOR_LE 273
-#define OPERATOR_GE 274
-#define OPERATOR_EQ 275
-#define OPERATOR_NE 276
-#define OPERATOR_AND 277
-#define OPERATOR_OR 278
-#define OPERATOR_L 279
-#define OPERATOR_G 280
-#define OPERATOR_NEG 281
-#define TK_IDENTIFIER 282
-#define LIT_INTEGER 283
-#define LIT_REAL 284
-#define LIT_CHAR 285
-#define LIT_STRING 286
-#define TOKEN_ERROR 287
-#define OPERATOR_DIV 288
+#define OPERATOR_DIV 273
+#define OPERATOR_LE 274
+#define OPERATOR_GE 275
+#define OPERATOR_EQ 276
+#define OPERATOR_NE 277
+#define OPERATOR_AND 278
+#define OPERATOR_OR 279
+#define OPERATOR_L 280
+#define OPERATOR_G 281
+#define OPERATOR_NEG 282
+#define TK_IDENTIFIER 283
+#define LIT_INTEGER 284
+#define LIT_REAL 285
+#define LIT_CHAR 286
+#define LIT_STRING 287
+#define TOKEN_ERROR 288
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 16 "parser.y" /* yacc.c:1909  */
+#line 17 "parser.y" /* yacc.c:1909  */
 
 	HASH *symbol;
 	AST *ast;

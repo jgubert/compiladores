@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "hash.h"
 #include "ast.h"
+#include "hash.h"
+
 
 int yylex();
 void yyerror(char* erro);
@@ -34,6 +35,7 @@ void stringError(void);
 %token OPERATOR_PLUS
 %token OPERATOR_MINUS
 %token OPERATOR_MULT
+%token OPERATOR_DIV
 %token OPERATOR_LE
 %token OPERATOR_GE
 %token OPERATOR_EQ
@@ -46,12 +48,20 @@ void stringError(void);
 
 %token<symbol> TK_IDENTIFIER
 %token<symbol> LIT_INTEGER
-%token LIT_REAL
-%token LIT_CHAR
-%token LIT_STRING
+%token<symbol> LIT_REAL
+%token<symbol> LIT_CHAR
+%token<symbol> LIT_STRING
 %token TOKEN_ERROR
 
-
+%type<ast> program
+%type<ast> decl
+%type<ast> dec
+%type<ast> decvar
+%type<ast> decvetor
+%type<ast> decfunction
+%type<ast> decpointer
+%type<ast> typevar
+%type<ast> literal
 %type<ast> exp
 %type<ast> cmd
 %type<ast> lcmd
@@ -65,14 +75,14 @@ void stringError(void);
 %left OPERATOR_NEG
 %%
 
-program: decl
+program: decl			{$$ = $1; astPrint($$,0);}
 ;
 
-decl: dec decl
+decl: dec decl		{$$ = astCreate(AST_DECLIST,0,$1,$2,0,0);}
 	|
 	;
 
-dec: decvar
+dec: decvar				{$$ = astCreate(AST_DECVAR,$1,0,0,0,0);}
 	| decvetor
 	| decfunction
 	| decpointer
@@ -142,8 +152,8 @@ flux_control: KW_IF '(' exp ')' KW_THEN cmd
 	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
 	| KW_WHILE '(' exp ')' cmd
 	| KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp')' cmd
-	; 
- 
+	;
+
 inout: KW_PRINT print_elem
 	| KW_READ TK_IDENTIFIER
 	| KW_RETURN exp
@@ -188,7 +198,7 @@ exp: TK_IDENTIFIER
 int getLineNumber();
 void initMe();
 
-#include "main.c"
+//#include "main.c"
 
 void yyerror(char *erro){
 	fprintf(stderr, "line: %d - Syntax error!\n", getLineNumber());

@@ -140,23 +140,23 @@ KW_PRINT (269) 47
 OPERATOR_PLUS (270) 62
 OPERATOR_MINUS (271) 63
 OPERATOR_MULT (272) 64
-OPERATOR_LE (273) 70
-OPERATOR_GE (274) 71
-OPERATOR_EQ (275) 72
-OPERATOR_NE (276) 73
-OPERATOR_AND (277) 74
-OPERATOR_OR (278) 75
-OPERATOR_L (279) 66
-OPERATOR_G (280) 67
-OPERATOR_NEG (281) 68
-TK_IDENTIFIER (282) 8 9 10 11 12 24 26 28 30 41 42 46 48 56 57 58 59
+OPERATOR_DIV (273) 65
+OPERATOR_LE (274) 70
+OPERATOR_GE (275) 71
+OPERATOR_EQ (276) 72
+OPERATOR_NE (277) 73
+OPERATOR_AND (278) 74
+OPERATOR_OR (279) 75
+OPERATOR_L (280) 66
+OPERATOR_G (281) 67
+OPERATOR_NEG (282) 68
+TK_IDENTIFIER (283) 8 9 10 11 12 24 26 28 30 41 42 46 48 56 57 58 59
     76
-LIT_INTEGER (283) 9 10 13 21 60
-LIT_REAL (284) 15 23
-LIT_CHAR (285) 14 22 61
-LIT_STRING (286) 50 51 52
-TOKEN_ERROR (287)
-OPERATOR_DIV (288) 65
+LIT_INTEGER (284) 9 10 13 21 60
+LIT_REAL (285) 15 23
+LIT_CHAR (286) 14 22 61
+LIT_STRING (287) 50 51 52
+TOKEN_ERROR (288)
 
 
 Não terminais com as regras onde eles aparecem
@@ -1072,15 +1072,15 @@ Estado 86
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 49 (inout)
 
@@ -1135,20 +1135,20 @@ Estado 89
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     OPERATOR_NEG    deslocar, e ir ao estado 79
     TK_IDENTIFIER   deslocar, e ir ao estado 80
     LIT_INTEGER     deslocar, e ir ao estado 81
     LIT_CHAR        deslocar, e ir ao estado 82
     LIT_STRING      deslocar, e ir ao estado 87
-    OPERATOR_DIV    deslocar, e ir ao estado 115
     '('             deslocar, e ir ao estado 83
     '#'             deslocar, e ir ao estado 84
     ' '             deslocar, e ir ao estado 118
@@ -1256,15 +1256,15 @@ Estado 95
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     ')'             deslocar, e ir ao estado 123
 
 
@@ -1287,15 +1287,15 @@ Estado 96
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     ')'             deslocar, e ir ao estado 124
 
 
@@ -1378,15 +1378,15 @@ Estado 101
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     ')'             deslocar, e ir ao estado 128
 
 
@@ -1451,7 +1451,7 @@ Estado 106
 
 Estado 107
 
-   70 exp: exp OPERATOR_LE . exp
+   65 exp: exp OPERATOR_DIV . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1466,7 +1466,7 @@ Estado 107
 
 Estado 108
 
-   71 exp: exp OPERATOR_GE . exp
+   70 exp: exp OPERATOR_LE . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1481,7 +1481,7 @@ Estado 108
 
 Estado 109
 
-   72 exp: exp OPERATOR_EQ . exp
+   71 exp: exp OPERATOR_GE . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1496,7 +1496,7 @@ Estado 109
 
 Estado 110
 
-   73 exp: exp OPERATOR_NE . exp
+   72 exp: exp OPERATOR_EQ . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1511,7 +1511,7 @@ Estado 110
 
 Estado 111
 
-   74 exp: exp OPERATOR_AND . exp
+   73 exp: exp OPERATOR_NE . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1526,7 +1526,7 @@ Estado 111
 
 Estado 112
 
-   75 exp: exp OPERATOR_OR . exp
+   74 exp: exp OPERATOR_AND . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1541,7 +1541,7 @@ Estado 112
 
 Estado 113
 
-   66 exp: exp OPERATOR_L . exp
+   75 exp: exp OPERATOR_OR . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1556,7 +1556,7 @@ Estado 113
 
 Estado 114
 
-   67 exp: exp OPERATOR_G . exp
+   66 exp: exp OPERATOR_L . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1571,7 +1571,7 @@ Estado 114
 
 Estado 115
 
-   65 exp: exp OPERATOR_DIV . exp
+   67 exp: exp OPERATOR_G . exp
 
     OPERATOR_NEG   deslocar, e ir ao estado 79
     TK_IDENTIFIER  deslocar, e ir ao estado 80
@@ -1651,15 +1651,15 @@ Estado 120
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 41 (attribution)
 
@@ -1683,15 +1683,15 @@ Estado 121
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     ']'             deslocar, e ir ao estado 143
 
 
@@ -1766,15 +1766,15 @@ Estado 126
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     ']'             deslocar, e ir ao estado 147
 
 
@@ -1809,7 +1809,7 @@ Estado 129
    75    | exp . OPERATOR_OR exp
 
     OPERATOR_MULT  deslocar, e ir ao estado 106
-    OPERATOR_DIV   deslocar, e ir ao estado 115
+    OPERATOR_DIV   deslocar, e ir ao estado 107
 
     $padrão  reduzir usando a regra 62 (exp)
 
@@ -1831,7 +1831,7 @@ Estado 130
    75    | exp . OPERATOR_OR exp
 
     OPERATOR_MULT  deslocar, e ir ao estado 106
-    OPERATOR_DIV   deslocar, e ir ao estado 115
+    OPERATOR_DIV   deslocar, e ir ao estado 107
 
     $padrão  reduzir usando a regra 63 (exp)
 
@@ -1861,6 +1861,25 @@ Estado 132
    63    | exp . OPERATOR_MINUS exp
    64    | exp . OPERATOR_MULT exp
    65    | exp . OPERATOR_DIV exp
+   65    | exp OPERATOR_DIV exp .
+   66    | exp . OPERATOR_L exp
+   67    | exp . OPERATOR_G exp
+   70    | exp . OPERATOR_LE exp
+   71    | exp . OPERATOR_GE exp
+   72    | exp . OPERATOR_EQ exp
+   73    | exp . OPERATOR_NE exp
+   74    | exp . OPERATOR_AND exp
+   75    | exp . OPERATOR_OR exp
+
+    $padrão  reduzir usando a regra 65 (exp)
+
+
+Estado 133
+
+   62 exp: exp . OPERATOR_PLUS exp
+   63    | exp . OPERATOR_MINUS exp
+   64    | exp . OPERATOR_MULT exp
+   65    | exp . OPERATOR_DIV exp
    66    | exp . OPERATOR_L exp
    67    | exp . OPERATOR_G exp
    70    | exp . OPERATOR_LE exp
@@ -1874,20 +1893,20 @@ Estado 132
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 70 (exp)
 
 
-Estado 133
+Estado 134
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -1906,20 +1925,20 @@ Estado 133
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 71 (exp)
 
 
-Estado 134
+Estado 135
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -1938,20 +1957,20 @@ Estado 134
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 72 (exp)
 
 
-Estado 135
+Estado 136
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -1970,20 +1989,20 @@ Estado 135
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 73 (exp)
 
 
-Estado 136
+Estado 137
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -2002,12 +2021,12 @@ Estado 136
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
 
     $padrão  reduzir usando a regra 74 (exp)
 
 
-Estado 137
+Estado 138
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -2026,12 +2045,12 @@ Estado 137
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
 
     $padrão  reduzir usando a regra 75 (exp)
 
 
-Estado 138
+Estado 139
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -2050,14 +2069,14 @@ Estado 138
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
 
     $padrão  reduzir usando a regra 66 (exp)
 
 
-Estado 139
+Estado 140
 
    62 exp: exp . OPERATOR_PLUS exp
    63    | exp . OPERATOR_MINUS exp
@@ -2076,30 +2095,11 @@ Estado 139
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
 
     $padrão  reduzir usando a regra 67 (exp)
-
-
-Estado 140
-
-   62 exp: exp . OPERATOR_PLUS exp
-   63    | exp . OPERATOR_MINUS exp
-   64    | exp . OPERATOR_MULT exp
-   65    | exp . OPERATOR_DIV exp
-   65    | exp OPERATOR_DIV exp .
-   66    | exp . OPERATOR_L exp
-   67    | exp . OPERATOR_G exp
-   70    | exp . OPERATOR_LE exp
-   71    | exp . OPERATOR_GE exp
-   72    | exp . OPERATOR_EQ exp
-   73    | exp . OPERATOR_NE exp
-   74    | exp . OPERATOR_AND exp
-   75    | exp . OPERATOR_OR exp
-
-    $padrão  reduzir usando a regra 65 (exp)
 
 
 Estado 141
@@ -2173,15 +2173,15 @@ Estado 146
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
 
 Estado 147
@@ -2258,15 +2258,15 @@ Estado 152
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
 
     $padrão  reduzir usando a regra 42 (attribution)
 
@@ -2312,15 +2312,15 @@ Estado 154
     OPERATOR_PLUS   deslocar, e ir ao estado 104
     OPERATOR_MINUS  deslocar, e ir ao estado 105
     OPERATOR_MULT   deslocar, e ir ao estado 106
-    OPERATOR_LE     deslocar, e ir ao estado 107
-    OPERATOR_GE     deslocar, e ir ao estado 108
-    OPERATOR_EQ     deslocar, e ir ao estado 109
-    OPERATOR_NE     deslocar, e ir ao estado 110
-    OPERATOR_AND    deslocar, e ir ao estado 111
-    OPERATOR_OR     deslocar, e ir ao estado 112
-    OPERATOR_L      deslocar, e ir ao estado 113
-    OPERATOR_G      deslocar, e ir ao estado 114
-    OPERATOR_DIV    deslocar, e ir ao estado 115
+    OPERATOR_DIV    deslocar, e ir ao estado 107
+    OPERATOR_LE     deslocar, e ir ao estado 108
+    OPERATOR_GE     deslocar, e ir ao estado 109
+    OPERATOR_EQ     deslocar, e ir ao estado 110
+    OPERATOR_NE     deslocar, e ir ao estado 111
+    OPERATOR_AND    deslocar, e ir ao estado 112
+    OPERATOR_OR     deslocar, e ir ao estado 113
+    OPERATOR_L      deslocar, e ir ao estado 114
+    OPERATOR_G      deslocar, e ir ao estado 115
     ')'             deslocar, e ir ao estado 156
 
 

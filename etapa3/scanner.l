@@ -3,9 +3,9 @@
 	//Samuel Rudnicki
 
 #include <stdlib.h>
-#include "y.tab.h"
 #include "hash.h"
 #include "ast.h"
+#include "y.tab.h"
 
 int getLineNumber(void);
 void initMe(void);

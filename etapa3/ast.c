@@ -25,16 +25,16 @@ void astPrint(AST *node, int level){
 
 	fprintf(stderr,"AST(");
 	switch(node->type){
-		
-		case AST_SYMBOL: fprintf(stderr, "AST_SYMBOL,\n");
+
+		case AST_SYMBOL: fprintf(stderr, "%s", node->symbol->text);
+			break;
 		default: fprintf(stderr, "UNKNOWN,\n");
 
 
 	}
-	
+
 	for(int i = 0; i < MAX_SONS; i++)
 		astPrint(node->son[i], level+1);
 
 
 }
-
