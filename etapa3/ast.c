@@ -26,8 +26,49 @@ void astPrint(AST *node, int level){
 	fprintf(stderr,"AST(");
 	switch(node->type){
 
-		case AST_SYMBOL: fprintf(stderr, "%s", node->symbol->text);
+		case AST_SYMBOL: fprintf(stderr, "AST_SYMBOL, %s\n", node->symbol->text);
 			break;
+		case AST_SYMBOL_VEC: fprintf(stderr, "AST_SYMBOL_VEC: %s,\n", node->symbol->text);
+			break;
+		case AST_SYMBOL_LIT: fprintf(stderr, "AST_SYMBOL_LIT: %s,\n", node->symbol->text);
+			break;
+		case AST_OP_PLUS: fprintf(stderr, "%s", node->symbol->text);
+			break;
+		case AST_OP_MINUS: fprintf(stderr, "%s", node->symbol->text);
+			break;
+		case AST_OP_MULT: fprintf(stderr, "%s", node->symbol->text);
+			break;
+		case AST_OP_DIV: fprintf(stderr, "%s", node->symbol->text);
+			break;
+		case AST_OP_LE: fprintf(stderr, "%s", node->symbol->text);
+			break;
+		case AST_OP_GE: fprintf(stderr, "%s", node->symbol->text);
+			break;
+		case AST_DECLIST: fprintf(stderr, "AST_DECLIST,\n");
+			break;
+		case AST_DEC: fprintf(stderr, "AST_DEC,\n");
+			break;
+		case AST_DECVAR: fprintf(stderr, "AST_DECVAR:%s,\n", node->symbol->text);
+			break;
+		case AST_DECVEC: fprintf(stderr, "AST_DECVEC:%s,\n", node->symbol->text);
+			break;
+		case AST_DECPOINT: fprintf(stderr, "AST_DECPOINT:%s,\n", node->symbol->text);
+			break;
+		case AST_DECFUNC: fprintf(stderr, "AST_DECFUNC:%s,\n", node->symbol->text);
+			break;
+		case AST_PARAMLIST: fprintf(stderr, "AST_PARAMLIST,\n");
+			break;
+		case AST_BODY: fprintf(stderr, "BODY,\n");
+			break;
+		case AST_KW_INT: fprintf(stderr, "int\n");
+			break;
+		case AST_KW_FLOAT: fprintf(stderr, "float\n");
+			break;
+		case AST_KW_CHAR: fprintf(stderr, "char\n");
+			break;
+		case AST_EMPTY: fprintf(stderr, "AST_EMPTY,\n");
+			break;
+
 		default: fprintf(stderr, "UNKNOWN,\n");
 
 

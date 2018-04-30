@@ -51,6 +51,13 @@
 
 #define AST_EMPTY				39
 
+#define AST_DEC					40
+#define AST_VEC_SIZE		41
+#define AST_DECVAR			42
+#define AST_INOUT				43
+#define AST_FUNCCALL		44
+#define AST_DECV			45
+
 
 
 typedef struct ast_node{
