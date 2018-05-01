@@ -10,7 +10,7 @@ extern FILE * yyin;
 extern int yylex();
 int yyparse (void);
 extern void hashPrint(void);
-
+extern void initMe(void);
 
 int main(int argc, char ** argv){
 

@@ -35,16 +35,16 @@ if      				{return KW_IF;}
 then					{return KW_THEN;}
 else					{return KW_ELSE;}
 while					{return KW_WHILE;}
-for					    {return KW_FOR;}
+for					{return KW_FOR;}
 to					{return KW_TO;}
 read					{return KW_READ;}
 return					{return KW_RETURN;}
 print					{return KW_PRINT;}
 
-"+"						{return OPERATOR_PLUS;}//adicao dos operadores +-*/!><
-"-"						{return OPERATOR_MINUS;}
-"*"						{return OPERATOR_MULT;}
-"/"						{return OPERATOR_DIV;}
+"+"					{return OPERATOR_PLUS;}//adicao dos operadores +-*/!><
+"-"					{return OPERATOR_MINUS;}
+"*"					{return OPERATOR_MULT;}
+"/"					{return OPERATOR_DIV;}
 "<="					{return OPERATOR_LE;}
 ">="					{return OPERATOR_GE;}
 "=="					{return OPERATOR_EQ;}
@@ -56,12 +56,12 @@ print					{return KW_PRINT;}
 "!"					{return OPERATOR_NEG;}
 
 
-[0-9]+					{yylval.symbol = hashInsert(SYMBOL_LIT_INTEGER,yytext); return LIT_INTEGER;}
-'.'							{yylval.symbol = hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
-[a-zA-Z_][a-zA-Z_0-9]*			{yylval.symbol = hashInsert(SYMBOL_IDENTIFIER,yytext); return TK_IDENTIFIER;}
-[0-9]+"."[0-9]+				{yylval.symbol = hashInsert(SYMBOL_LIT_REAL,yytext); return LIT_REAL;}
+[0-9]+					{yylval.symbol = hashInsert(SYMBOL_LIT_INTEGER,strdup(yytext)); return LIT_INTEGER;}
+'.'					{yylval.symbol = hashInsert(SYMBOL_LIT_CHAR,strdup(yytext)); return LIT_CHAR;}
+[a-zA-Z_][a-zA-Z_0-9]*			{yylval.symbol = hashInsert(SYMBOL_IDENTIFIER,strdup(yytext)); return TK_IDENTIFIER;}
+[0-9]+"."[0-9]+				{yylval.symbol = hashInsert(SYMBOL_LIT_REAL,strdup(yytext)); return LIT_REAL;}
 
-["]([^"]|\\.)*["]			{yylval.symbol = hashInsert(SYMBOL_LIT_STRING,yytext); return LIT_STRING;}
+["]([^"]|\\.)*["]			{yylval.symbol = hashInsert(SYMBOL_LIT_STRING,strdup(yytext)); return LIT_STRING;}
 [,;:(){}+-]				{return yytext[0];}
 [*/<>=!&$#]				{return yytext[0];}
 [\[\]]					{return yytext[0];}

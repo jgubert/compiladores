@@ -958,28 +958,28 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 59 "scanner.l"
-{yylval.symbol = hashInsert(SYMBOL_LIT_INTEGER,yytext); return LIT_INTEGER;}
+{yylval.symbol = hashInsert(SYMBOL_LIT_INTEGER,strdup(yytext)); return LIT_INTEGER;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 60 "scanner.l"
-{yylval.symbol = hashInsert(SYMBOL_LIT_CHAR,yytext); return LIT_CHAR;}
+{yylval.symbol = hashInsert(SYMBOL_LIT_CHAR,strdup(yytext)); return LIT_CHAR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 61 "scanner.l"
-{yylval.symbol = hashInsert(SYMBOL_IDENTIFIER,yytext); return TK_IDENTIFIER;}
+{yylval.symbol = hashInsert(SYMBOL_IDENTIFIER,strdup(yytext)); return TK_IDENTIFIER;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 62 "scanner.l"
-{yylval.symbol = hashInsert(SYMBOL_LIT_REAL,yytext); return LIT_REAL;}
+{yylval.symbol = hashInsert(SYMBOL_LIT_REAL,strdup(yytext)); return LIT_REAL;}
 	YY_BREAK
 case 30:
 /* rule 30 can match eol */
 YY_RULE_SETUP
 #line 64 "scanner.l"
-{yylval.symbol = hashInsert(SYMBOL_LIT_STRING,yytext); return LIT_STRING;}
+{yylval.symbol = hashInsert(SYMBOL_LIT_STRING,strdup(yytext)); return LIT_STRING;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP

@@ -16,6 +16,6 @@ void hashInit(void);
 HASH* hashInsert(int type, char *text);
 void hashPrint(void);
 int hashAddress(char *text);
-int hashSearch(int address, char *text);
+HASH *hashSearch(int address, char *text,int *achou);
 
 #endif

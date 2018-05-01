@@ -1,18 +1,23 @@
 // UFRGS - Compiladores - Marcelo Johann - 2018/1
 
+char teste()
+{a=10;}
+int outro()
+{
 int a = 0;
-int i = 1;
+int b = 1;
 int v[10]: 0 0 0 0 0 0 0 0 0 0; 
 int mat[10]; 
 float f = 10.55;
-char c = 'x';
-char d = 65;
-int #pt = 2;
-
+char c = 12;
+char d = 23;
+int #pt = 3;
+}
 
 int main()
   {
-  b = 10;
+ int i=23;
+  i = 10;
   pt = &a;
   i = #pt;
   v[2] = v[10-1];

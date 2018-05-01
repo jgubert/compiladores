@@ -17,12 +17,14 @@ void hashInit(void){
 
 HASH* hashInsert(int type, char *text){
   int address;
+  int achou=0;
 
   address = hashAddress(text);
   HASH *newnode = 0;
+  newnode=hashSearch(address,text,&achou);
 
-	if(hashSearch(address,text)){
-    return NULL;
+	if(achou==1){
+    return newnode;
   }
 	 //return NULL;
 	else {
@@ -59,11 +61,14 @@ int hashAddress(char *text){
   return address-1;
 }
 
-int hashSearch(int address, char *text){
+HASH *hashSearch(int address, char *text,int *achou){
   HASH *h;
   for(h = Table[address]; h != NULL; h=h->next)
 	 if(strcmp(h->text,text) == 0)
 		 break;
-	 if(h != NULL) return 1;
-   return 0;
+	if(h != NULL){
+		*achou=1;
+		return h;
+	}else
+		return h;
 }
