@@ -11,13 +11,14 @@ extern int yylex();
 int yyparse (void);
 extern void hashPrint(void);
 extern void initMe(void);
+extern FILE *out;
 
 int main(int argc, char ** argv){
 
 	int tok;
 
-	if(argc < 2){
-		fprintf(stderr, "Please, call: etapa1 file_name.\n");
+	if(argc < 3){
+		fprintf(stderr, "Please, call: etapa3 entrada.txt saida.txt\n");
 		exit(1);
 	}
 
@@ -25,6 +26,10 @@ int main(int argc, char ** argv){
 		fprintf(stderr, "Cannot open file %s.\n", argv[1]);
 		exit(2);
 	}
+	if((out = fopen(argv[2],"w")) == 0){
+		fprintf(stderr, "Cannot create file %s.\n", argv[2]);
+		exit(2);
+	}	
 
 	initMe();
 
