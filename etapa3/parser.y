@@ -20,9 +20,9 @@ void stringError(void);
 }
 
 //adicao de tokens dos operadores novos
-%token KW_CHAR
-%token KW_INT
-%token KW_FLOAT
+%token <symbol>KW_CHAR
+%token <symbol>KW_INT
+%token <symbol>KW_FLOAT
 %token KW_IF
 %token KW_THEN
 %token KW_ELSE
@@ -81,18 +81,18 @@ dec: decvar			{$$ = astCreate(AST_DEC,0,$1,0,0,0);}
 decvar: typevar TK_IDENTIFIER '=' literal ';'		{$$ = astCreate(AST_DECVAR,$2,$1,$4,0,0);}
 	;
 
-decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'	{$$ = astCreate(AST_DECVEC,$2,$1,astCreate(AST_VEC_SIZE, $4, 0, 0, 0, 0),0,0);}
-	|typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';'			{$$ = astCreate(AST_DECVEC,$2,$1,astCreate(AST_VEC_SIZE,$4,0,0,0,0),0,0);}
+decvetor: typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'	{$$ = astCreate(AST_DECVEC_A,$2,$1,astCreate(AST_VEC_SIZE, $4, 0, 0, 0, 0),$7,0);}
+	|typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';'			{$$ = astCreate(AST_DECVEC_B,$2,$1,astCreate(AST_VEC_SIZE,$4,0,0,0,0),0,0);}
 	;
 
 decfunction: typevar TK_IDENTIFIER '(' paramlist ')' body		{$$ = astCreate(AST_DECFUNC,$2,$1,$4,$6,0);}
 
 decpointer: typevar '#' TK_IDENTIFIER '=' literal ';'		{$$ = astCreate(AST_DECPOINT,$3,$1,$5,0,0);}
 
-decv:	LIT_INTEGER decv				{$$ = astCreate(AST_DECV,$1,$2,0,0,0);}
-	| LIT_CHAR decv					{$$ = astCreate(AST_DECV,$1,$2,0,0,0);}
-	| LIT_REAL decv					{$$ = astCreate(AST_DECV,$1,$2,0,0,0);}
-	| ' ' decv					{$$ = astCreate(AST_DECV,0,$2,0,0,0);}
+decv:	LIT_INTEGER decv				{$$ = astCreate(AST_DECV_A,$1,$2,0,0,0);}
+	| LIT_CHAR decv					{$$ = astCreate(AST_DECV_A,$1,$2,0,0,0);}
+	| LIT_REAL decv					{$$ = astCreate(AST_DECV_A,$1,$2,0,0,0);}
+	| ' ' decv					{$$ = astCreate(AST_DECV_B,0,$2,0,0,0);}
 	|						{$$ = astCreate(AST_EMPTY,0,0,0,0,0);}
 	;
 
@@ -106,15 +106,15 @@ literal: LIT_INTEGER					{$$ = astCreate(AST_SYMBOL_LIT,$1,0,0,0,0);}
 	| LIT_REAL					{$$ = astCreate(AST_SYMBOL_LIT,$1,0,0,0,0);}
 	;
 
-paramlist: typevar TK_IDENTIFIER rest			{$$ = astCreate(AST_PARAMLIST,$2,$1,$3,0,0);}
-	| literal rest					{$$ = astCreate(AST_PARAMLIST,0,$1,$2,0,0);}
-	| TK_IDENTIFIER rest				{$$ = astCreate(AST_PARAMLIST,$1,$2,0,0,0);}
+paramlist: typevar TK_IDENTIFIER rest			{$$ = astCreate(AST_PARAMLIST_A,$2,$1,$3,0,0);}
+	| literal rest					{$$ = astCreate(AST_PARAMLIST_B,0,$1,$2,0,0);}
+	| TK_IDENTIFIER rest				{$$ = astCreate(AST_PARAMLIST_C,$1,$2,0,0,0);}
 	|						{$$ = astCreate(AST_EMPTY,0,0,0,0,0);}
 	;
 
-rest: ',' typevar TK_IDENTIFIER rest			{$$ = astCreate(AST_PARAM,$3,$2,$4,0,0);}
-	| ',' literal rest				{$$ = astCreate(AST_PARAM,0,$2,$3,0,0);}
-	| ',' TK_IDENTIFIER rest			{$$ = astCreate(AST_PARAM,$2,$3,0,0,0);}
+rest: ',' typevar TK_IDENTIFIER rest			{$$ = astCreate(AST_PARAM_A,$3,$2,$4,0,0);}
+	| ',' literal rest				{$$ = astCreate(AST_PARAM_B,0,$2,$3,0,0);}
+	| ',' TK_IDENTIFIER rest			{$$ = astCreate(AST_PARAM_C,$2,$3,0,0,0);}
 	|						{$$ = astCreate(AST_EMPTY,0,0,0,0,0);}
 	;
 
@@ -129,17 +129,17 @@ cmd: attribution				{$$ = astCreate(AST_CMD,0,$1,0,0,0);}
 body: '{' lcmd '}'				{$$ = astCreate(AST_BODY,0,$2,0,0,0);}
 	;
 
-lcmd: cmd ';' lcmd				{$$ = astCreate(AST_LISTCMD,0,$1,$3,0,0);}
-	| dec lcmd				{$$ = astCreate(AST_LISTCMD,0,$1,$2,0,0);}
-	| cmd					{$$ = astCreate(AST_LISTCMD,0,$1,0,0,0);}
+lcmd: cmd ';' lcmd				{$$ = astCreate(AST_LISTCMD_A,0,$1,$3,0,0);}
+	| dec lcmd				{$$ = astCreate(AST_LISTCMD_B,0,$1,$2,0,0);}
+	| cmd					{$$ = astCreate(AST_LISTCMD_C,0,$1,0,0,0);}
 	;
 
-attribution: TK_IDENTIFIER '=' exp				{$$ = astCreate(AST_ATTRIB,$1,$3,0,0,0);}
-	| TK_IDENTIFIER '[' exp ']' '=' exp			{$$ = astCreate(AST_ATTRIB,$1,$3,$3,0,0);}
+attribution: TK_IDENTIFIER '=' exp				{$$ = astCreate(AST_ATTRIB_A,$1,$3,0,0,0);}
+	| TK_IDENTIFIER '[' exp ']' '=' exp			{$$ = astCreate(AST_ATTRIB_B,$1,$3,$6,0,0);}
 	;
 
 flux_control: KW_IF '(' exp ')' KW_THEN cmd					{$$ = astCreate(AST_IF,0,$3,$6,0,0);}
-	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd				{$$ = astCreate(AST_IF,0,$3,$6,$8,0);}
+	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd				{$$ = astCreate(AST_IFELSE,0,$3,$6,$8,0);}
 	| KW_WHILE '(' exp ')' cmd						{$$ = astCreate(AST_WHILE,0,$3,$5,0,0);}
 	| KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp')' cmd			{$$ = astCreate(AST_FOR,$3,$5,$7,$9,0);}
 	;
@@ -149,18 +149,18 @@ inout: KW_PRINT print_elem			{$$ = astCreate(AST_INOUT,0,$2,0,0,0);}
 	| KW_RETURN exp				{$$ = astCreate(AST_RETURN,0,$2,0,0,0);}
 	;
 
-print_elem: LIT_STRING					{$$ = astCreate(AST_PRINT,$1,0,0,0,0);}
-	| LIT_STRING print_elem				{$$ = astCreate(AST_PRINT,$1,$2,0,0,0);}
-	| LIT_STRING ' ' print_elem			{$$ = astCreate(AST_PRINT,$1,$3,0,0,0);}
-	| exp						{$$ = astCreate(AST_PRINT,0,$1,0,0,0);}
-	| exp print_elem				{$$ = astCreate(AST_PRINT,0,$1,$2,0,0);}
-	| exp ' ' print_elem				{$$ = astCreate(AST_PRINT,0,$1,$3,0,0);}
+print_elem: LIT_STRING					{$$ = astCreate(AST_PRINT_A,$1,0,0,0,0);}
+	| LIT_STRING print_elem				{$$ = astCreate(AST_PRINT_B,$1,$2,0,0,0);}
+	| LIT_STRING ' ' print_elem			{$$ = astCreate(AST_PRINT_C,$1,$3,0,0,0);}
+	| exp						{$$ = astCreate(AST_PRINT_D,0,$1,0,0,0);}
+	| exp print_elem				{$$ = astCreate(AST_PRINT_E,0,$1,$2,0,0);}
+	| exp ' ' print_elem				{$$ = astCreate(AST_PRINT_F,0,$1,$3,0,0);}
 	;
 
-exp: TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);} //erros estao no exp
-	| TK_IDENTIFIER '[' exp ']'			{$$ = astCreate(AST_SYMBOL,$1,$3,0,0,0);}
-	| '#'TK_IDENTIFIER				{$$ = astCreate(AST_SYMBOL,$2,0,0,0,0);}
-	| '&'TK_IDENTIFIER				{$$ = astCreate(AST_SYMBOL,$2,0,0,0,0);}
+exp: TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL_A,$1,0,0,0,0);} //erros estao no exp
+	| TK_IDENTIFIER '[' exp ']'			{$$ = astCreate(AST_SYMBOL_B,$1,$3,0,0,0);}
+	| '#'TK_IDENTIFIER				{$$ = astCreate(AST_SYMBOL_C,$2,0,0,0,0);}
+	| '&'TK_IDENTIFIER				{$$ = astCreate(AST_SYMBOL_D,$2,0,0,0,0);}
 	| LIT_INTEGER 					{$$ = astCreate(AST_SYMBOL_LIT,$1,0,0,0,0);}
 	| LIT_CHAR					{$$ = astCreate(AST_SYMBOL_LIT,$1,0,0,0,0);}
 	| exp OPERATOR_PLUS exp				{$$ = astCreate(AST_OP_PLUS,0,$1,$3,0,0);}
