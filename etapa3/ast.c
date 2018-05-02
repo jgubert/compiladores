@@ -64,6 +64,7 @@ void astPrint(AST *node, int level){
 		case AST_DECFUNC: astPrint(node->son[0],level); fprintf(stderr,"%s ", node->symbol->text); fprintf(stderr,"( "); astPrint(node->son[1],level); fprintf(stderr,") "); astPrint(node->son[2],level);
 			break;
 		case AST_DECV_A: fprintf(stderr,"%s ",node->symbol->text); astPrint(node->son[0],level); 
+			break;
 		case AST_DECV_B: fprintf(stderr,"' ' "); astPrint(node->son[0],level); 
 			break;
 		case AST_KW_INT: fprintf(stderr, "int ");
