@@ -1,0 +1,2373 @@
+   0  $accept : program $end
+
+   1  program : decl
+
+   2  decl : dec decl
+   3       |
+
+   4  dec : decvar
+   5      | decvetor
+   6      | decfunction
+   7      | decpointer
+
+   8  decvar : typevar TK_IDENTIFIER '=' literal ';'
+
+   9  decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'
+  10           | typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';'
+
+  11  decfunction : typevar TK_IDENTIFIER '(' paramlist ')' body
+
+  12  decpointer : typevar '#' TK_IDENTIFIER '=' literal ';'
+
+  13  decv : LIT_INTEGER decv
+  14       | LIT_CHAR decv
+  15       | LIT_REAL decv
+  16       | ' ' decv
+  17       |
+
+  18  typevar : KW_CHAR
+  19          | KW_INT
+  20          | KW_FLOAT
+
+  21  literal : LIT_INTEGER
+  22          | LIT_CHAR
+  23          | LIT_REAL
+
+  24  paramlist : typevar TK_IDENTIFIER rest
+  25            | literal rest
+  26            | TK_IDENTIFIER rest
+  27            |
+
+  28  rest : ',' typevar TK_IDENTIFIER rest
+  29       | ',' literal rest
+  30       | ',' TK_IDENTIFIER rest
+  31       |
+
+  32  cmd : attribution
+  33      | flux_control
+  34      | inout
+  35      | body
+  36      |
+
+  37  body : '{' lcmd '}'
+
+  38  lcmd : cmd ';' lcmd
+  39       | dec lcmd
+  40       | cmd
+
+  41  attribution : TK_IDENTIFIER '=' exp
+  42              | TK_IDENTIFIER '[' exp ']' '=' exp
+
+  43  flux_control : KW_IF '(' exp ')' KW_THEN cmd
+  44               | KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
+  45               | KW_WHILE '(' exp ')' cmd
+  46               | KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp ')' cmd
+
+  47  inout : KW_PRINT print_elem
+  48        | KW_READ TK_IDENTIFIER
+  49        | KW_RETURN exp
+
+  50  print_elem : LIT_STRING
+  51             | LIT_STRING print_elem
+  52             | LIT_STRING ' ' print_elem
+  53             | exp
+  54             | exp print_elem
+  55             | exp ' ' print_elem
+
+  56  exp : TK_IDENTIFIER
+  57      | TK_IDENTIFIER '[' exp ']'
+  58      | '#' TK_IDENTIFIER
+  59      | '&' TK_IDENTIFIER
+  60      | LIT_INTEGER
+  61      | LIT_CHAR
+  62      | exp OPERATOR_PLUS exp
+  63      | exp OPERATOR_MINUS exp
+  64      | exp OPERATOR_MULT exp
+  65      | exp OPERATOR_DIV exp
+  66      | exp OPERATOR_L exp
+  67      | exp OPERATOR_G exp
+  68      | OPERATOR_NEG exp
+  69      | '(' exp ')'
+  70      | exp OPERATOR_LE exp
+  71      | exp OPERATOR_GE exp
+  72      | exp OPERATOR_EQ exp
+  73      | exp OPERATOR_NE exp
+  74      | exp OPERATOR_AND exp
+  75      | exp OPERATOR_OR exp
+  76      | TK_IDENTIFIER '(' paramlist ')'
+
+state 0
+	$accept : . program $end  (0)
+	decl : .  (3)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	$end  reduce 3
+
+	program  goto 4
+	decl  goto 5
+	dec  goto 6
+	decvar  goto 7
+	decvetor  goto 8
+	decfunction  goto 9
+	decpointer  goto 10
+	typevar  goto 11
+
+
+state 1
+	typevar : KW_CHAR .  (18)
+
+	.  reduce 18
+
+
+state 2
+	typevar : KW_INT .  (19)
+
+	.  reduce 19
+
+
+state 3
+	typevar : KW_FLOAT .  (20)
+
+	.  reduce 20
+
+
+state 4
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 5
+	program : decl .  (1)
+
+	.  reduce 1
+
+
+state 6
+	decl : dec . decl  (2)
+	decl : .  (3)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	$end  reduce 3
+
+	decl  goto 12
+	dec  goto 6
+	decvar  goto 7
+	decvetor  goto 8
+	decfunction  goto 9
+	decpointer  goto 10
+	typevar  goto 11
+
+
+state 7
+	dec : decvar .  (4)
+
+	.  reduce 4
+
+
+state 8
+	dec : decvetor .  (5)
+
+	.  reduce 5
+
+
+state 9
+	dec : decfunction .  (6)
+
+	.  reduce 6
+
+
+state 10
+	dec : decpointer .  (7)
+
+	.  reduce 7
+
+
+state 11
+	decvar : typevar . TK_IDENTIFIER '=' literal ';'  (8)
+	decvetor : typevar . TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';'  (9)
+	decvetor : typevar . TK_IDENTIFIER '[' LIT_INTEGER ']' ';'  (10)
+	decfunction : typevar . TK_IDENTIFIER '(' paramlist ')' body  (11)
+	decpointer : typevar . '#' TK_IDENTIFIER '=' literal ';'  (12)
+
+	TK_IDENTIFIER  shift 13
+	'#'  shift 14
+	.  error
+
+
+state 12
+	decl : dec decl .  (2)
+
+	.  reduce 2
+
+
+state 13
+	decvar : typevar TK_IDENTIFIER . '=' literal ';'  (8)
+	decvetor : typevar TK_IDENTIFIER . '[' LIT_INTEGER ']' ':' decv ';'  (9)
+	decvetor : typevar TK_IDENTIFIER . '[' LIT_INTEGER ']' ';'  (10)
+	decfunction : typevar TK_IDENTIFIER . '(' paramlist ')' body  (11)
+
+	'='  shift 15
+	'['  shift 16
+	'('  shift 17
+	.  error
+
+
+state 14
+	decpointer : typevar '#' . TK_IDENTIFIER '=' literal ';'  (12)
+
+	TK_IDENTIFIER  shift 18
+	.  error
+
+
+state 15
+	decvar : typevar TK_IDENTIFIER '=' . literal ';'  (8)
+
+	LIT_INTEGER  shift 19
+	LIT_REAL  shift 20
+	LIT_CHAR  shift 21
+	.  error
+
+	literal  goto 22
+
+
+state 16
+	decvetor : typevar TK_IDENTIFIER '[' . LIT_INTEGER ']' ':' decv ';'  (9)
+	decvetor : typevar TK_IDENTIFIER '[' . LIT_INTEGER ']' ';'  (10)
+
+	LIT_INTEGER  shift 23
+	.  error
+
+
+state 17
+	decfunction : typevar TK_IDENTIFIER '(' . paramlist ')' body  (11)
+	paramlist : .  (27)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	TK_IDENTIFIER  shift 24
+	LIT_INTEGER  shift 19
+	LIT_REAL  shift 20
+	LIT_CHAR  shift 21
+	')'  reduce 27
+
+	typevar  goto 25
+	literal  goto 26
+	paramlist  goto 27
+
+
+state 18
+	decpointer : typevar '#' TK_IDENTIFIER . '=' literal ';'  (12)
+
+	'='  shift 28
+	.  error
+
+
+state 19
+	literal : LIT_INTEGER .  (21)
+
+	.  reduce 21
+
+
+state 20
+	literal : LIT_REAL .  (23)
+
+	.  reduce 23
+
+
+state 21
+	literal : LIT_CHAR .  (22)
+
+	.  reduce 22
+
+
+state 22
+	decvar : typevar TK_IDENTIFIER '=' literal . ';'  (8)
+
+	';'  shift 29
+	.  error
+
+
+state 23
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER . ']' ':' decv ';'  (9)
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER . ']' ';'  (10)
+
+	']'  shift 30
+	.  error
+
+
+state 24
+	paramlist : TK_IDENTIFIER . rest  (26)
+	rest : .  (31)
+
+	','  shift 31
+	')'  reduce 31
+
+	rest  goto 32
+
+
+state 25
+	paramlist : typevar . TK_IDENTIFIER rest  (24)
+
+	TK_IDENTIFIER  shift 33
+	.  error
+
+
+state 26
+	paramlist : literal . rest  (25)
+	rest : .  (31)
+
+	','  shift 31
+	')'  reduce 31
+
+	rest  goto 34
+
+
+state 27
+	decfunction : typevar TK_IDENTIFIER '(' paramlist . ')' body  (11)
+
+	')'  shift 35
+	.  error
+
+
+state 28
+	decpointer : typevar '#' TK_IDENTIFIER '=' . literal ';'  (12)
+
+	LIT_INTEGER  shift 19
+	LIT_REAL  shift 20
+	LIT_CHAR  shift 21
+	.  error
+
+	literal  goto 36
+
+
+state 29
+	decvar : typevar TK_IDENTIFIER '=' literal ';' .  (8)
+
+	.  reduce 8
+
+
+state 30
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' . ':' decv ';'  (9)
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' . ';'  (10)
+
+	';'  shift 37
+	':'  shift 38
+	.  error
+
+
+state 31
+	rest : ',' . typevar TK_IDENTIFIER rest  (28)
+	rest : ',' . literal rest  (29)
+	rest : ',' . TK_IDENTIFIER rest  (30)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	TK_IDENTIFIER  shift 39
+	LIT_INTEGER  shift 19
+	LIT_REAL  shift 20
+	LIT_CHAR  shift 21
+	.  error
+
+	typevar  goto 40
+	literal  goto 41
+
+
+state 32
+	paramlist : TK_IDENTIFIER rest .  (26)
+
+	.  reduce 26
+
+
+state 33
+	paramlist : typevar TK_IDENTIFIER . rest  (24)
+	rest : .  (31)
+
+	','  shift 31
+	')'  reduce 31
+
+	rest  goto 42
+
+
+state 34
+	paramlist : literal rest .  (25)
+
+	.  reduce 25
+
+
+state 35
+	decfunction : typevar TK_IDENTIFIER '(' paramlist ')' . body  (11)
+
+	'{'  shift 43
+	.  error
+
+	body  goto 44
+
+
+state 36
+	decpointer : typevar '#' TK_IDENTIFIER '=' literal . ';'  (12)
+
+	';'  shift 45
+	.  error
+
+
+state 37
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ';' .  (10)
+
+	.  reduce 10
+
+
+state 38
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' . decv ';'  (9)
+	decv : .  (17)
+
+	LIT_INTEGER  shift 46
+	LIT_REAL  shift 47
+	LIT_CHAR  shift 48
+	' '  shift 49
+	';'  reduce 17
+
+	decv  goto 50
+
+
+state 39
+	rest : ',' TK_IDENTIFIER . rest  (30)
+	rest : .  (31)
+
+	','  shift 31
+	')'  reduce 31
+
+	rest  goto 51
+
+
+state 40
+	rest : ',' typevar . TK_IDENTIFIER rest  (28)
+
+	TK_IDENTIFIER  shift 52
+	.  error
+
+
+state 41
+	rest : ',' literal . rest  (29)
+	rest : .  (31)
+
+	','  shift 31
+	')'  reduce 31
+
+	rest  goto 53
+
+
+state 42
+	paramlist : typevar TK_IDENTIFIER rest .  (24)
+
+	.  reduce 24
+
+
+state 43
+	body : '{' . lcmd '}'  (37)
+	cmd : .  (36)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	';'  reduce 36
+	'}'  reduce 36
+
+	dec  goto 61
+	decvar  goto 7
+	decvetor  goto 8
+	decfunction  goto 9
+	decpointer  goto 10
+	typevar  goto 11
+	cmd  goto 62
+	body  goto 63
+	lcmd  goto 64
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 44
+	decfunction : typevar TK_IDENTIFIER '(' paramlist ')' body .  (11)
+
+	.  reduce 11
+
+
+state 45
+	decpointer : typevar '#' TK_IDENTIFIER '=' literal ';' .  (12)
+
+	.  reduce 12
+
+
+state 46
+	decv : LIT_INTEGER . decv  (13)
+	decv : .  (17)
+
+	LIT_INTEGER  shift 46
+	LIT_REAL  shift 47
+	LIT_CHAR  shift 48
+	' '  shift 49
+	';'  reduce 17
+
+	decv  goto 68
+
+
+state 47
+	decv : LIT_REAL . decv  (15)
+	decv : .  (17)
+
+	LIT_INTEGER  shift 46
+	LIT_REAL  shift 47
+	LIT_CHAR  shift 48
+	' '  shift 49
+	';'  reduce 17
+
+	decv  goto 69
+
+
+state 48
+	decv : LIT_CHAR . decv  (14)
+	decv : .  (17)
+
+	LIT_INTEGER  shift 46
+	LIT_REAL  shift 47
+	LIT_CHAR  shift 48
+	' '  shift 49
+	';'  reduce 17
+
+	decv  goto 70
+
+
+state 49
+	decv : ' ' . decv  (16)
+	decv : .  (17)
+
+	LIT_INTEGER  shift 46
+	LIT_REAL  shift 47
+	LIT_CHAR  shift 48
+	' '  shift 49
+	';'  reduce 17
+
+	decv  goto 71
+
+
+state 50
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv . ';'  (9)
+
+	';'  shift 72
+	.  error
+
+
+state 51
+	rest : ',' TK_IDENTIFIER rest .  (30)
+
+	.  reduce 30
+
+
+state 52
+	rest : ',' typevar TK_IDENTIFIER . rest  (28)
+	rest : .  (31)
+
+	','  shift 31
+	')'  reduce 31
+
+	rest  goto 73
+
+
+state 53
+	rest : ',' literal rest .  (29)
+
+	.  reduce 29
+
+
+state 54
+	flux_control : KW_IF . '(' exp ')' KW_THEN cmd  (43)
+	flux_control : KW_IF . '(' exp ')' KW_THEN cmd KW_ELSE cmd  (44)
+
+	'('  shift 74
+	.  error
+
+
+state 55
+	flux_control : KW_WHILE . '(' exp ')' cmd  (45)
+
+	'('  shift 75
+	.  error
+
+
+state 56
+	flux_control : KW_FOR . '(' TK_IDENTIFIER '=' exp KW_TO exp ')' cmd  (46)
+
+	'('  shift 76
+	.  error
+
+
+state 57
+	inout : KW_READ . TK_IDENTIFIER  (48)
+
+	TK_IDENTIFIER  shift 77
+	.  error
+
+
+state 58
+	inout : KW_RETURN . exp  (49)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 85
+
+
+state 59
+	inout : KW_PRINT . print_elem  (47)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	LIT_STRING  shift 86
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	print_elem  goto 87
+	exp  goto 88
+
+
+state 60
+	attribution : TK_IDENTIFIER . '=' exp  (41)
+	attribution : TK_IDENTIFIER . '[' exp ']' '=' exp  (42)
+
+	'='  shift 89
+	'['  shift 90
+	.  error
+
+
+state 61
+	lcmd : dec . lcmd  (39)
+	cmd : .  (36)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	';'  reduce 36
+	'}'  reduce 36
+
+	dec  goto 61
+	decvar  goto 7
+	decvetor  goto 8
+	decfunction  goto 9
+	decpointer  goto 10
+	typevar  goto 11
+	cmd  goto 62
+	body  goto 63
+	lcmd  goto 91
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 62
+	lcmd : cmd . ';' lcmd  (38)
+	lcmd : cmd .  (40)
+
+	';'  shift 92
+	'}'  reduce 40
+
+
+state 63
+	cmd : body .  (35)
+
+	.  reduce 35
+
+
+state 64
+	body : '{' lcmd . '}'  (37)
+
+	'}'  shift 93
+	.  error
+
+
+state 65
+	cmd : attribution .  (32)
+
+	.  reduce 32
+
+
+state 66
+	cmd : flux_control .  (33)
+
+	.  reduce 33
+
+
+state 67
+	cmd : inout .  (34)
+
+	.  reduce 34
+
+
+state 68
+	decv : LIT_INTEGER decv .  (13)
+
+	.  reduce 13
+
+
+state 69
+	decv : LIT_REAL decv .  (15)
+
+	.  reduce 15
+
+
+state 70
+	decv : LIT_CHAR decv .  (14)
+
+	.  reduce 14
+
+
+state 71
+	decv : ' ' decv .  (16)
+
+	.  reduce 16
+
+
+state 72
+	decvetor : typevar TK_IDENTIFIER '[' LIT_INTEGER ']' ':' decv ';' .  (9)
+
+	.  reduce 9
+
+
+state 73
+	rest : ',' typevar TK_IDENTIFIER rest .  (28)
+
+	.  reduce 28
+
+
+state 74
+	flux_control : KW_IF '(' . exp ')' KW_THEN cmd  (43)
+	flux_control : KW_IF '(' . exp ')' KW_THEN cmd KW_ELSE cmd  (44)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 94
+
+
+state 75
+	flux_control : KW_WHILE '(' . exp ')' cmd  (45)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 95
+
+
+state 76
+	flux_control : KW_FOR '(' . TK_IDENTIFIER '=' exp KW_TO exp ')' cmd  (46)
+
+	TK_IDENTIFIER  shift 96
+	.  error
+
+
+state 77
+	inout : KW_READ TK_IDENTIFIER .  (48)
+
+	.  reduce 48
+
+
+state 78
+	exp : OPERATOR_NEG . exp  (68)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 97
+
+
+79: shift/reduce conflict (shift 99, reduce 56) on '('
+state 79
+	exp : TK_IDENTIFIER .  (56)
+	exp : TK_IDENTIFIER . '[' exp ']'  (57)
+	exp : TK_IDENTIFIER . '(' paramlist ')'  (76)
+
+	'['  shift 98
+	'('  shift 99
+	KW_ELSE  reduce 56
+	KW_TO  reduce 56
+	OPERATOR_PLUS  reduce 56
+	OPERATOR_MINUS  reduce 56
+	OPERATOR_MULT  reduce 56
+	OPERATOR_DIV  reduce 56
+	OPERATOR_LE  reduce 56
+	OPERATOR_GE  reduce 56
+	OPERATOR_EQ  reduce 56
+	OPERATOR_NE  reduce 56
+	OPERATOR_AND  reduce 56
+	OPERATOR_OR  reduce 56
+	OPERATOR_L  reduce 56
+	OPERATOR_G  reduce 56
+	OPERATOR_NEG  reduce 56
+	TK_IDENTIFIER  reduce 56
+	LIT_INTEGER  reduce 56
+	LIT_CHAR  reduce 56
+	LIT_STRING  reduce 56
+	';'  reduce 56
+	']'  reduce 56
+	')'  reduce 56
+	'#'  reduce 56
+	' '  reduce 56
+	'}'  reduce 56
+	'&'  reduce 56
+
+
+state 80
+	exp : LIT_INTEGER .  (60)
+
+	.  reduce 60
+
+
+state 81
+	exp : LIT_CHAR .  (61)
+
+	.  reduce 61
+
+
+state 82
+	exp : '(' . exp ')'  (69)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 100
+
+
+state 83
+	exp : '#' . TK_IDENTIFIER  (58)
+
+	TK_IDENTIFIER  shift 101
+	.  error
+
+
+state 84
+	exp : '&' . TK_IDENTIFIER  (59)
+
+	TK_IDENTIFIER  shift 102
+	.  error
+
+
+state 85
+	inout : KW_RETURN exp .  (49)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 49
+	';'  reduce 49
+	'}'  reduce 49
+
+
+state 86
+	print_elem : LIT_STRING .  (50)
+	print_elem : LIT_STRING . print_elem  (51)
+	print_elem : LIT_STRING . ' ' print_elem  (52)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	LIT_STRING  shift 86
+	'('  shift 82
+	'#'  shift 83
+	' '  shift 115
+	'&'  shift 84
+	KW_ELSE  reduce 50
+	';'  reduce 50
+	'}'  reduce 50
+
+	print_elem  goto 116
+	exp  goto 88
+
+
+state 87
+	inout : KW_PRINT print_elem .  (47)
+
+	.  reduce 47
+
+
+state 88
+	print_elem : exp .  (53)
+	print_elem : exp . print_elem  (54)
+	print_elem : exp . ' ' print_elem  (55)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	LIT_STRING  shift 86
+	'('  shift 82
+	'#'  shift 83
+	' '  shift 117
+	'&'  shift 84
+	KW_ELSE  reduce 53
+	';'  reduce 53
+	'}'  reduce 53
+
+	print_elem  goto 118
+	exp  goto 88
+
+
+state 89
+	attribution : TK_IDENTIFIER '=' . exp  (41)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 119
+
+
+state 90
+	attribution : TK_IDENTIFIER '[' . exp ']' '=' exp  (42)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 120
+
+
+state 91
+	lcmd : dec lcmd .  (39)
+
+	.  reduce 39
+
+
+state 92
+	lcmd : cmd ';' . lcmd  (38)
+	cmd : .  (36)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	';'  reduce 36
+	'}'  reduce 36
+
+	dec  goto 61
+	decvar  goto 7
+	decvetor  goto 8
+	decfunction  goto 9
+	decpointer  goto 10
+	typevar  goto 11
+	cmd  goto 62
+	body  goto 63
+	lcmd  goto 121
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 93
+	body : '{' lcmd '}' .  (37)
+
+	.  reduce 37
+
+
+state 94
+	flux_control : KW_IF '(' exp . ')' KW_THEN cmd  (43)
+	flux_control : KW_IF '(' exp . ')' KW_THEN cmd KW_ELSE cmd  (44)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	')'  shift 122
+	.  error
+
+
+state 95
+	flux_control : KW_WHILE '(' exp . ')' cmd  (45)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	')'  shift 123
+	.  error
+
+
+state 96
+	flux_control : KW_FOR '(' TK_IDENTIFIER . '=' exp KW_TO exp ')' cmd  (46)
+
+	'='  shift 124
+	.  error
+
+
+state 97
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : OPERATOR_NEG exp .  (68)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	.  reduce 68
+
+
+state 98
+	exp : TK_IDENTIFIER '[' . exp ']'  (57)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 125
+
+
+state 99
+	exp : TK_IDENTIFIER '(' . paramlist ')'  (76)
+	paramlist : .  (27)
+
+	KW_CHAR  shift 1
+	KW_INT  shift 2
+	KW_FLOAT  shift 3
+	TK_IDENTIFIER  shift 24
+	LIT_INTEGER  shift 19
+	LIT_REAL  shift 20
+	LIT_CHAR  shift 21
+	')'  reduce 27
+
+	typevar  goto 25
+	literal  goto 26
+	paramlist  goto 126
+
+
+state 100
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : '(' exp . ')'  (69)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	')'  shift 127
+	.  error
+
+
+state 101
+	exp : '#' TK_IDENTIFIER .  (58)
+
+	.  reduce 58
+
+
+state 102
+	exp : '&' TK_IDENTIFIER .  (59)
+
+	.  reduce 59
+
+
+state 103
+	exp : exp OPERATOR_PLUS . exp  (62)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 128
+
+
+state 104
+	exp : exp OPERATOR_MINUS . exp  (63)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 129
+
+
+state 105
+	exp : exp OPERATOR_MULT . exp  (64)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 130
+
+
+state 106
+	exp : exp OPERATOR_DIV . exp  (65)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 131
+
+
+state 107
+	exp : exp OPERATOR_LE . exp  (70)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 132
+
+
+state 108
+	exp : exp OPERATOR_GE . exp  (71)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 133
+
+
+state 109
+	exp : exp OPERATOR_EQ . exp  (72)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 134
+
+
+state 110
+	exp : exp OPERATOR_NE . exp  (73)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 135
+
+
+state 111
+	exp : exp OPERATOR_AND . exp  (74)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 136
+
+
+state 112
+	exp : exp OPERATOR_OR . exp  (75)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 137
+
+
+state 113
+	exp : exp OPERATOR_L . exp  (66)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 138
+
+
+state 114
+	exp : exp OPERATOR_G . exp  (67)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 139
+
+
+state 115
+	print_elem : LIT_STRING ' ' . print_elem  (52)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	LIT_STRING  shift 86
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	print_elem  goto 140
+	exp  goto 88
+
+
+state 116
+	print_elem : LIT_STRING print_elem .  (51)
+
+	.  reduce 51
+
+
+state 117
+	print_elem : exp ' ' . print_elem  (55)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	LIT_STRING  shift 86
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	print_elem  goto 141
+	exp  goto 88
+
+
+state 118
+	print_elem : exp print_elem .  (54)
+
+	.  reduce 54
+
+
+state 119
+	attribution : TK_IDENTIFIER '=' exp .  (41)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 41
+	';'  reduce 41
+	'}'  reduce 41
+
+
+state 120
+	attribution : TK_IDENTIFIER '[' exp . ']' '=' exp  (42)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	']'  shift 142
+	.  error
+
+
+state 121
+	lcmd : cmd ';' lcmd .  (38)
+
+	.  reduce 38
+
+
+state 122
+	flux_control : KW_IF '(' exp ')' . KW_THEN cmd  (43)
+	flux_control : KW_IF '(' exp ')' . KW_THEN cmd KW_ELSE cmd  (44)
+
+	KW_THEN  shift 143
+	.  error
+
+
+state 123
+	flux_control : KW_WHILE '(' exp ')' . cmd  (45)
+	cmd : .  (36)
+
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	KW_ELSE  reduce 36
+	';'  reduce 36
+	'}'  reduce 36
+
+	cmd  goto 144
+	body  goto 63
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 124
+	flux_control : KW_FOR '(' TK_IDENTIFIER '=' . exp KW_TO exp ')' cmd  (46)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 145
+
+
+state 125
+	exp : TK_IDENTIFIER '[' exp . ']'  (57)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	']'  shift 146
+	.  error
+
+
+state 126
+	exp : TK_IDENTIFIER '(' paramlist . ')'  (76)
+
+	')'  shift 147
+	.  error
+
+
+state 127
+	exp : '(' exp ')' .  (69)
+
+	.  reduce 69
+
+
+state 128
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp OPERATOR_PLUS exp .  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	KW_ELSE  reduce 62
+	KW_TO  reduce 62
+	OPERATOR_PLUS  reduce 62
+	OPERATOR_MINUS  reduce 62
+	OPERATOR_LE  reduce 62
+	OPERATOR_GE  reduce 62
+	OPERATOR_EQ  reduce 62
+	OPERATOR_NE  reduce 62
+	OPERATOR_AND  reduce 62
+	OPERATOR_OR  reduce 62
+	OPERATOR_L  reduce 62
+	OPERATOR_G  reduce 62
+	OPERATOR_NEG  reduce 62
+	TK_IDENTIFIER  reduce 62
+	LIT_INTEGER  reduce 62
+	LIT_CHAR  reduce 62
+	LIT_STRING  reduce 62
+	';'  reduce 62
+	']'  reduce 62
+	'('  reduce 62
+	')'  reduce 62
+	'#'  reduce 62
+	' '  reduce 62
+	'}'  reduce 62
+	'&'  reduce 62
+
+
+state 129
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp OPERATOR_MINUS exp .  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	KW_ELSE  reduce 63
+	KW_TO  reduce 63
+	OPERATOR_PLUS  reduce 63
+	OPERATOR_MINUS  reduce 63
+	OPERATOR_LE  reduce 63
+	OPERATOR_GE  reduce 63
+	OPERATOR_EQ  reduce 63
+	OPERATOR_NE  reduce 63
+	OPERATOR_AND  reduce 63
+	OPERATOR_OR  reduce 63
+	OPERATOR_L  reduce 63
+	OPERATOR_G  reduce 63
+	OPERATOR_NEG  reduce 63
+	TK_IDENTIFIER  reduce 63
+	LIT_INTEGER  reduce 63
+	LIT_CHAR  reduce 63
+	LIT_STRING  reduce 63
+	';'  reduce 63
+	']'  reduce 63
+	'('  reduce 63
+	')'  reduce 63
+	'#'  reduce 63
+	' '  reduce 63
+	'}'  reduce 63
+	'&'  reduce 63
+
+
+state 130
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp OPERATOR_MULT exp .  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	.  reduce 64
+
+
+state 131
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp OPERATOR_DIV exp .  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	.  reduce 65
+
+
+state 132
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp OPERATOR_LE exp .  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 70
+	KW_TO  reduce 70
+	OPERATOR_NEG  reduce 70
+	TK_IDENTIFIER  reduce 70
+	LIT_INTEGER  reduce 70
+	LIT_CHAR  reduce 70
+	LIT_STRING  reduce 70
+	';'  reduce 70
+	']'  reduce 70
+	'('  reduce 70
+	')'  reduce 70
+	'#'  reduce 70
+	' '  reduce 70
+	'}'  reduce 70
+	'&'  reduce 70
+
+
+state 133
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp OPERATOR_GE exp .  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 71
+	KW_TO  reduce 71
+	OPERATOR_NEG  reduce 71
+	TK_IDENTIFIER  reduce 71
+	LIT_INTEGER  reduce 71
+	LIT_CHAR  reduce 71
+	LIT_STRING  reduce 71
+	';'  reduce 71
+	']'  reduce 71
+	'('  reduce 71
+	')'  reduce 71
+	'#'  reduce 71
+	' '  reduce 71
+	'}'  reduce 71
+	'&'  reduce 71
+
+
+state 134
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp OPERATOR_EQ exp .  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 72
+	KW_TO  reduce 72
+	OPERATOR_NEG  reduce 72
+	TK_IDENTIFIER  reduce 72
+	LIT_INTEGER  reduce 72
+	LIT_CHAR  reduce 72
+	LIT_STRING  reduce 72
+	';'  reduce 72
+	']'  reduce 72
+	'('  reduce 72
+	')'  reduce 72
+	'#'  reduce 72
+	' '  reduce 72
+	'}'  reduce 72
+	'&'  reduce 72
+
+
+state 135
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp OPERATOR_NE exp .  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 73
+	KW_TO  reduce 73
+	OPERATOR_NEG  reduce 73
+	TK_IDENTIFIER  reduce 73
+	LIT_INTEGER  reduce 73
+	LIT_CHAR  reduce 73
+	LIT_STRING  reduce 73
+	';'  reduce 73
+	']'  reduce 73
+	'('  reduce 73
+	')'  reduce 73
+	'#'  reduce 73
+	' '  reduce 73
+	'}'  reduce 73
+	'&'  reduce 73
+
+
+state 136
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp OPERATOR_AND exp .  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	KW_ELSE  reduce 74
+	KW_TO  reduce 74
+	OPERATOR_LE  reduce 74
+	OPERATOR_GE  reduce 74
+	OPERATOR_EQ  reduce 74
+	OPERATOR_NE  reduce 74
+	OPERATOR_AND  reduce 74
+	OPERATOR_OR  reduce 74
+	OPERATOR_L  reduce 74
+	OPERATOR_G  reduce 74
+	OPERATOR_NEG  reduce 74
+	TK_IDENTIFIER  reduce 74
+	LIT_INTEGER  reduce 74
+	LIT_CHAR  reduce 74
+	LIT_STRING  reduce 74
+	';'  reduce 74
+	']'  reduce 74
+	'('  reduce 74
+	')'  reduce 74
+	'#'  reduce 74
+	' '  reduce 74
+	'}'  reduce 74
+	'&'  reduce 74
+
+
+state 137
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+	exp : exp OPERATOR_OR exp .  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	KW_ELSE  reduce 75
+	KW_TO  reduce 75
+	OPERATOR_LE  reduce 75
+	OPERATOR_GE  reduce 75
+	OPERATOR_EQ  reduce 75
+	OPERATOR_NE  reduce 75
+	OPERATOR_AND  reduce 75
+	OPERATOR_OR  reduce 75
+	OPERATOR_L  reduce 75
+	OPERATOR_G  reduce 75
+	OPERATOR_NEG  reduce 75
+	TK_IDENTIFIER  reduce 75
+	LIT_INTEGER  reduce 75
+	LIT_CHAR  reduce 75
+	LIT_STRING  reduce 75
+	';'  reduce 75
+	']'  reduce 75
+	'('  reduce 75
+	')'  reduce 75
+	'#'  reduce 75
+	' '  reduce 75
+	'}'  reduce 75
+	'&'  reduce 75
+
+
+state 138
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp OPERATOR_L exp .  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	KW_ELSE  reduce 66
+	KW_TO  reduce 66
+	OPERATOR_LE  reduce 66
+	OPERATOR_GE  reduce 66
+	OPERATOR_EQ  reduce 66
+	OPERATOR_NE  reduce 66
+	OPERATOR_L  reduce 66
+	OPERATOR_G  reduce 66
+	OPERATOR_NEG  reduce 66
+	TK_IDENTIFIER  reduce 66
+	LIT_INTEGER  reduce 66
+	LIT_CHAR  reduce 66
+	LIT_STRING  reduce 66
+	';'  reduce 66
+	']'  reduce 66
+	'('  reduce 66
+	')'  reduce 66
+	'#'  reduce 66
+	' '  reduce 66
+	'}'  reduce 66
+	'&'  reduce 66
+
+
+state 139
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp OPERATOR_G exp .  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	KW_ELSE  reduce 67
+	KW_TO  reduce 67
+	OPERATOR_LE  reduce 67
+	OPERATOR_GE  reduce 67
+	OPERATOR_EQ  reduce 67
+	OPERATOR_NE  reduce 67
+	OPERATOR_L  reduce 67
+	OPERATOR_G  reduce 67
+	OPERATOR_NEG  reduce 67
+	TK_IDENTIFIER  reduce 67
+	LIT_INTEGER  reduce 67
+	LIT_CHAR  reduce 67
+	LIT_STRING  reduce 67
+	';'  reduce 67
+	']'  reduce 67
+	'('  reduce 67
+	')'  reduce 67
+	'#'  reduce 67
+	' '  reduce 67
+	'}'  reduce 67
+	'&'  reduce 67
+
+
+state 140
+	print_elem : LIT_STRING ' ' print_elem .  (52)
+
+	.  reduce 52
+
+
+state 141
+	print_elem : exp ' ' print_elem .  (55)
+
+	.  reduce 55
+
+
+state 142
+	attribution : TK_IDENTIFIER '[' exp ']' . '=' exp  (42)
+
+	'='  shift 148
+	.  error
+
+
+state 143
+	flux_control : KW_IF '(' exp ')' KW_THEN . cmd  (43)
+	flux_control : KW_IF '(' exp ')' KW_THEN . cmd KW_ELSE cmd  (44)
+	cmd : .  (36)
+
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	KW_ELSE  reduce 36
+	';'  reduce 36
+	'}'  reduce 36
+
+	cmd  goto 149
+	body  goto 63
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 144
+	flux_control : KW_WHILE '(' exp ')' cmd .  (45)
+
+	.  reduce 45
+
+
+state 145
+	flux_control : KW_FOR '(' TK_IDENTIFIER '=' exp . KW_TO exp ')' cmd  (46)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	KW_TO  shift 150
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	.  error
+
+
+state 146
+	exp : TK_IDENTIFIER '[' exp ']' .  (57)
+
+	.  reduce 57
+
+
+state 147
+	exp : TK_IDENTIFIER '(' paramlist ')' .  (76)
+
+	.  reduce 76
+
+
+state 148
+	attribution : TK_IDENTIFIER '[' exp ']' '=' . exp  (42)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 151
+
+
+149: shift/reduce conflict (shift 152, reduce 43) on KW_ELSE
+state 149
+	flux_control : KW_IF '(' exp ')' KW_THEN cmd .  (43)
+	flux_control : KW_IF '(' exp ')' KW_THEN cmd . KW_ELSE cmd  (44)
+
+	KW_ELSE  shift 152
+	';'  reduce 43
+	'}'  reduce 43
+
+
+state 150
+	flux_control : KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO . exp ')' cmd  (46)
+
+	OPERATOR_NEG  shift 78
+	TK_IDENTIFIER  shift 79
+	LIT_INTEGER  shift 80
+	LIT_CHAR  shift 81
+	'('  shift 82
+	'#'  shift 83
+	'&'  shift 84
+	.  error
+
+	exp  goto 153
+
+
+state 151
+	attribution : TK_IDENTIFIER '[' exp ']' '=' exp .  (42)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	KW_ELSE  reduce 42
+	';'  reduce 42
+	'}'  reduce 42
+
+
+state 152
+	flux_control : KW_IF '(' exp ')' KW_THEN cmd KW_ELSE . cmd  (44)
+	cmd : .  (36)
+
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	KW_ELSE  reduce 36
+	';'  reduce 36
+	'}'  reduce 36
+
+	cmd  goto 154
+	body  goto 63
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 153
+	flux_control : KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp . ')' cmd  (46)
+	exp : exp . OPERATOR_PLUS exp  (62)
+	exp : exp . OPERATOR_MINUS exp  (63)
+	exp : exp . OPERATOR_MULT exp  (64)
+	exp : exp . OPERATOR_DIV exp  (65)
+	exp : exp . OPERATOR_L exp  (66)
+	exp : exp . OPERATOR_G exp  (67)
+	exp : exp . OPERATOR_LE exp  (70)
+	exp : exp . OPERATOR_GE exp  (71)
+	exp : exp . OPERATOR_EQ exp  (72)
+	exp : exp . OPERATOR_NE exp  (73)
+	exp : exp . OPERATOR_AND exp  (74)
+	exp : exp . OPERATOR_OR exp  (75)
+
+	OPERATOR_PLUS  shift 103
+	OPERATOR_MINUS  shift 104
+	OPERATOR_MULT  shift 105
+	OPERATOR_DIV  shift 106
+	OPERATOR_LE  shift 107
+	OPERATOR_GE  shift 108
+	OPERATOR_EQ  shift 109
+	OPERATOR_NE  shift 110
+	OPERATOR_AND  shift 111
+	OPERATOR_OR  shift 112
+	OPERATOR_L  shift 113
+	OPERATOR_G  shift 114
+	')'  shift 155
+	.  error
+
+
+state 154
+	flux_control : KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd .  (44)
+
+	.  reduce 44
+
+
+state 155
+	flux_control : KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp ')' . cmd  (46)
+	cmd : .  (36)
+
+	KW_IF  shift 54
+	KW_WHILE  shift 55
+	KW_FOR  shift 56
+	KW_READ  shift 57
+	KW_RETURN  shift 58
+	KW_PRINT  shift 59
+	TK_IDENTIFIER  shift 60
+	'{'  shift 43
+	KW_ELSE  reduce 36
+	';'  reduce 36
+	'}'  reduce 36
+
+	cmd  goto 156
+	body  goto 63
+	attribution  goto 65
+	flux_control  goto 66
+	inout  goto 67
+
+
+state 156
+	flux_control : KW_FOR '(' TK_IDENTIFIER '=' exp KW_TO exp ')' cmd .  (46)
+
+	.  reduce 46
+
+
+State 79 contains 1 shift/reduce conflict.
+State 149 contains 1 shift/reduce conflict.
+
+
+46 terminals, 21 nonterminals
+77 grammar rules, 157 states
