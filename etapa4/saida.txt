@@ -1,22 +1,19 @@
-char
-teste ( intv  ) {
+char teste ( int v  ) {
 a = 10 ;
  }
-intoutro (  ) {
-inta = 0 ;
-intb = 1 ;
-intv [ 10 ] : 0 0 0 0 0 0 0 0 0 0  ;
-intmat [ 10 ] ;
-float
-f = 10.55 ;
-char
-c = 12 ;
-char
-d = 23 ;
-int#pt = 3 ;
+int outro (  ) {
+int a = 0 ;
+int b = 1 ;
+int v [ 10 ] : 0 0 0 0 0 0 0 0 0 0  ;
+int mat [ 10 ] ;
+int c = 2 ;
+float f = 10.55 ;
+char c = 12 ;
+char d = 23 ;
+int #pt = 3 ;
  }
-intmain (  ) {
-inti = 23 ;
+int main (  ) {
+int i = 23 ;
 i = 10 ;
 pt = &a ;
 i = #pt ;
@@ -42,9 +39,9 @@ if (a == 11 ) then  else  ;
 {
  }
 }
-intincn ( intx , intn  ) {
+int incn ( int x , int n  ) {
 return x + n ;
  }
-intvoidfunc (  ) {
+int voidfunc (  ) {
  }
  

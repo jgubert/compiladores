@@ -28,7 +28,7 @@ void set_declarations(AST *node)
 	{
 		if(node->symbol->type != SYMBOL_IDENTIFIER)
 		{
-			fprintf(stderr,"Semantic error: Symbol %salready declared.\n", node->symbol->text);
+			fprintf(stderr,"Semantic error: Symbol %s already declared.\n", node->symbol->text);
 			exit(4);
 		}
 		else
@@ -46,7 +46,7 @@ void set_declarations(AST *node)
 	{
 		if(node->symbol->type != SYMBOL_IDENTIFIER)
 		{
-			fprintf(stderr,"Semantic error: Symbol %salready declared.\n", node->symbol->text);
+			fprintf(stderr,"Semantic error: Symbol %s already declared.\n", node->symbol->text);
 			exit(4);
 		}
 		else

@@ -1,5 +1,1 @@
-int main()
-{
-int v;
-int v;
-}
+int i =14 + 23

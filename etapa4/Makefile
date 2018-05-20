@@ -10,20 +10,20 @@
 # and #include "main.c" in the last part of the scanner.l
 #
 
-etapa4: main.o hash.o ast.o y.tab.o lex.yy.o semantic.o
+etapa4: main.o hash.o ast.o semantic.o y.tab.o lex.yy.o 
 	gcc -o etapa4 main.o hash.o lex.yy.o y.tab.o ast.o semantic.o
 
 main.o: main.c
 	gcc -c main.c
-	
-semantic.o: semantic.c
-	gcc -c semantic.c
 
 hash.o: hash.c
 	gcc -c hash.c
 
 ast.o: ast.c
 	gcc -c ast.c
+	
+semantic.o: semantic.c
+	gcc -c semantic.c
 
 y.tab.o: y.tab.c
 	gcc -c y.tab.c
@@ -36,6 +36,7 @@ y.tab.c: parser.y
 	
 lex.yy.c: scanner.l
 	lex scanner.l
+
 
 clean:
 	rm *.o lex.yy.c y.tab.c y.tab.h y.output etapa4

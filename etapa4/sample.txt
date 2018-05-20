@@ -8,8 +8,9 @@ int a = 0;
 int b = 1;
 int v[10]: 0 0 0 0 0 0 0 0 0 0; 
 int mat[10]; 
+char c = 2;
 float f = 10.55;
-char c = 12;
+char e = 12;
 char d = 23;
 int #pt = 3;
 }
@@ -18,7 +19,6 @@ int main()
   {
  int i=23;
   i = 10;
-  char v
   pt = &a;
   i = #pt;
   v[2] = v[10-1];

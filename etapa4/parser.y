@@ -7,6 +7,7 @@
 
 #include "ast.h"
 #include "hash.h"
+#include "semantic.h"
 
 
 int yylex();
@@ -65,7 +66,7 @@ void stringError(void);
 %left OPERATOR_NEG
 %%
 
-program: decl			{$$ = $1;}
+program: decl			{$$ = $1; set_declarations($$);astPrint($$,0);}
 ;
 
 decl: dec decl		{$$ = astCreate(AST_DECLIST,0,$1,$2,0,0);}
