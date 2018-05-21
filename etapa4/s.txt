@@ -1,7 +1,4 @@
-char teste ( int v  ) {
-a = 10 ;
- }
-int outro (  ) {
+char teste (  ) {
 int a = 0 ;
 int b = 1 ;
 int v [ 10 ] : 0 0 0 0 0 0 0 0 0 0  ;
@@ -11,13 +8,15 @@ float f = 10.55 ;
 char e = 12 ;
 char d = 23 ;
 int #pt = 3 ;
+d = f AND b ;
  }
 int main (  ) {
 int i = 23 ;
 i = 10 ;
 pt = &a ;
 i = #pt ;
-v [ 2 ] = v [ 10 - 1 ] ;
+v [ 2 ] = 2 ;
+v [ 0 ] = #pt ;
 for (i = 1 to 10 ) print i " " ;
 print " Digite um numero: \n" ;
 read i ;
@@ -39,7 +38,7 @@ if (a == 11 ) then  else  ;
 {
  }
 }
-int incn ( int x , int n  ) {
+float incn ( int x , int n  ) {
 return x + n ;
  }
 int voidfunc (  ) {

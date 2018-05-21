@@ -66,7 +66,7 @@ void stringError(void);
 %left OPERATOR_NEG
 %%
 
-program: decl			{$$ = $1; set_declarations($$);astPrint($$,0);}
+program: decl			{$$ = $1; set_declarations($$); check_use($$); check_op($$); astPrint($$,0);}
 ;
 
 decl: dec decl		{$$ = astCreate(AST_DECLIST,0,$1,$2,0,0);}

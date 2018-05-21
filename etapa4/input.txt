@@ -1,21 +1,16 @@
-var : float = 12;
-text : float = 'k';
+//João Pedro Gubert de Souza
+//Samuel Rudnicki
 
+int a = 12;
+int b = 65;
+int var1 = 0;
+float v99 = 10.11;
+char _1 = 'k';
 
-(byte) function(){
-	c = a + b
+for (i = 0; i<=15;i++){
+  var1 = a + b; //soma
 }
 
-(float) main(a){
+print("Soma de a+b = %d", var1);
 
-while (a>0)
-	b = c;
-
-if (!a) then a = 0;
-
-while (b||c)
-	a = 10;
-
-if ((a+c)>b) then a=0 else a=10;
-
-}
+return 0;

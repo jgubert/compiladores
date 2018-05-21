@@ -709,7 +709,7 @@ yyreduce:
     {
 case 1:
 #line 69 "parser.y"
-	{yyval.ast = yystack.l_mark[0].ast; set_declarations(yyval.ast);astPrint(yyval.ast,0);}
+	{yyval.ast = yystack.l_mark[0].ast; set_declarations(yyval.ast); check_use(yyval.ast); check_op(yyval.ast); astPrint(yyval.ast,0);}
 break;
 case 2:
 #line 72 "parser.y"
