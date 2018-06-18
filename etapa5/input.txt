@@ -1,0 +1,16 @@
+//João Pedro Gubert de Souza
+//Samuel Rudnicki
+
+int a = 12;
+int b = 65;
+int var1 = 0;
+float v99 = 10.11;
+char _1 = 'k';
+
+for (i = 0; i<=15;i++){
+  var1 = a + b; //soma
+}
+
+print("Soma de a+b = %d", var1);
+
+return 0;
