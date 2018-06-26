@@ -11,7 +11,7 @@
 #
 
 etapa4: main.o hash.o ast.o  y.tab.o lex.yy.o tac.o
-	gcc -o etapa4 main.o hash.o lex.yy.o y.tab.o ast.o tac.o
+	gcc -o etapa5 main.o hash.o lex.yy.o y.tab.o ast.o tac.o
 
 main.o: main.c
 	gcc -c main.c
@@ -38,4 +38,4 @@ tac.o: tac.c
 	gcc -c tac.c
 
 clean:
-	rm *.o lex.yy.c y.tab.c y.tab.h y.output etapa4
+	rm *.o lex.yy.c y.tab.c y.tab.h y.output etapa5
