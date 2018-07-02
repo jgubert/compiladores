@@ -66,7 +66,11 @@ void stringError(void);
 %left OPERATOR_NEG
 %%
 
-program: decl			{$$ = $1; set_declarations($$); check_use($$); check_op($$); astPrint($$,0);}
+program: decl			{$$ = $1; 
+astPrint($$,0);
+if(set_declarations($$) || check_use($$)|| check_op($$))
+exit(4);
+}
 ;
 
 decl: dec decl		{$$ = astCreate(AST_DECLIST,0,$1,$2,0,0);}
@@ -158,12 +162,13 @@ print_elem: LIT_STRING					{$$ = astCreate(AST_PRINT_A,$1,0,0,0,0);}
 	| exp ' ' print_elem				{$$ = astCreate(AST_PRINT_F,0,$1,$3,0,0);}
 	;
 
-exp: TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL_A,$1,0,0,0,0);} //erros estao no exp
+exp: TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL_A,$1,0,0,0,0);}
 	| TK_IDENTIFIER '[' exp ']'			{$$ = astCreate(AST_SYMBOL_B,$1,$3,0,0,0);}
 	| '#'TK_IDENTIFIER				{$$ = astCreate(AST_SYMBOL_C,$2,0,0,0,0);}
 	| '&'TK_IDENTIFIER				{$$ = astCreate(AST_SYMBOL_D,$2,0,0,0,0);}
 	| LIT_INTEGER 					{$$ = astCreate(AST_SYMBOL_LIT,$1,0,0,0,0);}
 	| LIT_CHAR					{$$ = astCreate(AST_SYMBOL_LIT,$1,0,0,0,0);}
+	| LIT_REAL					{$$ = astCreate(AST_SYMBOL_LIT_R,$1,0,0,0,0);}
 	| exp OPERATOR_PLUS exp				{$$ = astCreate(AST_OP_PLUS,0,$1,$3,0,0);}
 	| exp OPERATOR_MINUS exp			{$$ = astCreate(AST_OP_MINUS,0,$1,$3,0,0);}
 	| exp OPERATOR_MULT exp				{$$ = astCreate(AST_OP_MULT,0,$1,$3,0,0);}
@@ -184,12 +189,8 @@ exp: TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL_A,$1,0,0,0,0);} //erros estao 
 
 %%
 
-
-
-int getLineNumber();
-void initMe();
-
 //#include "main.c"
+int getLineNumber();
 
 void yyerror(char *erro){
 	fprintf(stderr, "line: %d - Syntax error!\n", getLineNumber());

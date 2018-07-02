@@ -3,7 +3,7 @@
 #include "ast.h"
 
 AST* astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
-
+	extern int getLineNumber();
 	AST *newnode;
 	newnode = (AST*) calloc(1, sizeof(AST));
 	newnode->type = type;
@@ -12,7 +12,7 @@ AST* astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son
 	newnode->son[1] = son1;
 	newnode->son[2] = son2;
 	newnode->son[3] = son3;
-
+  newnode->lineNumber = getLineNumber();
 	return newnode;
 
 }
@@ -84,6 +84,8 @@ void astPrint(AST *node, int level){
 		case AST_SYMBOL_D: fprintf(out,"&");fprintf(out,"%s ", node->symbol->text);
 			break;
 		case AST_SYMBOL_LIT: fprintf(out,"%s ", node->symbol->text);
+			break;
+		case AST_SYMBOL_LIT_R: fprintf(out,"%s ", node->symbol->text);
 			break;
 		case AST_BODY: fprintf(out, "{\n"); astPrint(node->son[0],level); fprintf(out, "}\n");
 			break;

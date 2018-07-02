@@ -8,8 +8,10 @@ int mat[10];
 char c = 2;
 float f = 10.55;
 char e = 12;
-char d = 23;
+int e = 1;
+char d = 23.5;
 int #pt = 3;
+f = 3.3;
 d = f && b;
 }
 
@@ -17,6 +19,7 @@ int main()
   {
  int i=23;
   i = 10;
+  char i = 2;
   pt = &a;
   i = #pt;
   v[2] = 2;

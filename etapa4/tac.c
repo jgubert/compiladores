@@ -129,7 +129,7 @@ TAC *codeGenerator(AST *node)
 			break;
 		case AST_EMPTY: 
 			break;
-		default: break;
+		default: fprintf(stderr,"nao incluiu");break;
 	}
 		
 	return result;

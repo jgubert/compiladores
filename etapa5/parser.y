@@ -69,8 +69,11 @@ void stringError(void);
 
 program: decl			{$$ = $1;
 astPrint($$,0);
+if (set_declarations($$) || check_use($$) || check_op($$))
+	exit(4);
 TAC* root = codeGenerator($$);
-fprintf(stderr,"fez arvore\n"); tacPrintBack(root);}
+tacPrintBack(root);
+}
 ;
 
 decl: dec decl		{$$ = astCreate(AST_DECLIST,0,$1,$2,0,0);}
@@ -190,6 +193,8 @@ exp: TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL_A,$1,0,0,0,0);}
 %%
 
 //#include "main.c"
+
+int getLineNumber();
 
 void yyerror(char *erro){
 	fprintf(stderr, "line: %d - Syntax error!\n", getLineNumber());

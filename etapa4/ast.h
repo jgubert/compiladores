@@ -11,6 +11,7 @@
 #define AST_SYMBOL_D			152
 #define AST_SYMBOL_VEC 			2
 #define AST_SYMBOL_LIT 			3
+#define AST_SYMBOL_LIT_R  88
 
 #define AST_OP_PLUS 			4
 #define AST_OP_MINUS			5
@@ -83,6 +84,7 @@ typedef struct ast_node{
 	int type;
 	HASH * symbol;
 	struct ast_node *son[MAX_SONS];
+	int lineNumber;
 
 } AST;
 

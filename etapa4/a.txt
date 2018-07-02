@@ -15,7 +15,6 @@ d = f AND b ;
 int main (  ) {
 int i = 23 ;
 i = 10 ;
-char i = 2 ;
 pt = &a ;
 i = #pt ;
 v [ 2 ] = 2 ;

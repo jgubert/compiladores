@@ -3,7 +3,7 @@
 #include "ast.h"
 
 AST* astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
-
+	extern int getLineNumber();
 	AST *newnode;
 	newnode = (AST*) calloc(1, sizeof(AST));
 	newnode->type = type;
@@ -12,7 +12,7 @@ AST* astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son
 	newnode->son[1] = son1;
 	newnode->son[2] = son2;
 	newnode->son[3] = son3;
-  //newnode->lineNumber = getLineNumber();
+  newnode->lineNumber = getLineNumber();
 	return newnode;
 
 }
