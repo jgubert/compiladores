@@ -41,5 +41,6 @@ void hashPrint(void);
 int hashAddress(char *text);
 HASH *hashSearch(int address, char *text,int *achou);
 HASH *makeTemp();
+HASH *makeUm();
 HASH *makeLabel();
 #endif

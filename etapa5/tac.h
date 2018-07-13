@@ -11,10 +11,10 @@
 #define TAC_SYMBOL_VEC	2
 #define TAC_SYMBOL_LIT	3
 
-#define TAC_ADD		4
-#define TAC_SUB		5
-#define TAC_MUL		6
-#define TAC_DIV		7
+#define TAC_OP_PLUS		4
+#define TAC_OP_MINUS		5
+#define TAC_OP_MULT		6
+#define TAC_OP_DIV		7
 #define TAC_OP_LES		8
 #define TAC_OP_GRE		9
 #define TAC_OP_LE		10

@@ -80,10 +80,17 @@ HASH *makeTemp(void) {
 	sprintf(buffer, "__TeMp%d", serialNumber++);
 
 	temp = hashInsert(SYMBOL_VAR, buffer);
-
+	
 	return temp;
 }
-
+HASH *makeUm()
+{
+	HASH *temp;
+	
+	temp = hashInsert(SYMBOL_LIT_INTEGER,"1");
+	
+	return temp;
+}
 HASH *makeLabel(void) {
 	HASH *temp = 0;
 	static int labelSerialNumber = 1;

@@ -1,0 +1,5 @@
+int main()
+{
+for (i=3 to 10)
+	print " ";
+}

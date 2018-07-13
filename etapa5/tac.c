@@ -39,13 +39,17 @@ TAC *codeGenerator(AST *node)
 			break;
 			case AST_SYMBOL_LIT: result =tacCreate(TAC_SYMBOL_LIT, node->symbol,0,0);
 			break;
-			case AST_OP_PLUS: result= makeOps(TAC_ADD,code[0],code[1]);
+			case AST_OP_PLUS: result= makeOps(TAC_OP_PLUS,code[0],code[1]);
 			break;
-			case AST_OP_MINUS: result=makeOps(TAC_SUB,code[0],code[1]);
+			case AST_OP_MINUS: result=makeOps(TAC_OP_MINUS,code[0],code[1]);
 			break;
-			case AST_OP_MULT: result=makeOps(TAC_MUL,code[0],code[1]);
+			case AST_OP_MULT: result=makeOps(TAC_OP_MULT,code[0],code[1]);
 			break;
-			case AST_OP_DIV: result=makeOps(TAC_DIV,code[0],code[1]);
+			case AST_OP_DIV: result=makeOps(TAC_OP_DIV,code[0],code[1]);
+			break;
+			case AST_OP_L: result=makeOps(TAC_OP_LES,code[0],code[1]);
+			break;
+			case AST_OP_G: result=makeOps(TAC_OP_GRE,code[0],code[1]);
 			break;
 			case AST_OP_LE: result=makeOps(TAC_OP_LES,code[0],code[1]);
 			break;
@@ -73,7 +77,7 @@ TAC *codeGenerator(AST *node)
 			break;
 		case AST_WHILE: result = makeWhile(code[0], code[1]);
 			break;
-		case AST_FOR: result = makeFor(node->symbol,code[0], code[1],code[3]);
+		case AST_FOR: //result = makeFor(node->symbol,code[0], code[1],code[3]);
 			break;
 		case AST_RETURN: result = tacJoin(code[0], tacCreate(TAC_RET, code[0]? code[0]->res : 0, 0, 0));
 			break;
@@ -81,7 +85,7 @@ TAC *codeGenerator(AST *node)
 			break;
 		case AST_INOUT: result = tacJoin(code[0], tacCreate(TAC_OUT, code[0]? code[0]->res : 0, 0, 0));
 			break;
-		case AST_ATTRIB_A: result = tacJoin(code[0], tacCreate(TAC_MOVE, node->symbol, code[0]? code[0]->res : 0, 0));
+		case AST_ATTRIB_A: result = tacJoin(code[1], tacCreate(TAC_MOVE, node->symbol, code[0]? code[0]->res : 0, 0));
 			break;
 		case AST_ATTRIB_B: result = makeAtrVec(node->symbol, code[0], code[1]);
 			break;
@@ -134,24 +138,12 @@ TAC *codeGenerator(AST *node)
 		
 	return result;
 }
-TAC* makeIf(TAC* expr, TAC* then, TAC* els) {
-	HASH* targetElse = makeLabel();
-	HASH* targetEnd = makeLabel();
-
-	TAC* jumpElse = tacCreate(TAC_JFALSE, targetElse, expr->res, 0);
-	TAC* jumpEnd = tacCreate(TAC_JUMP, targetEnd, 0, 0);
-
-	TAC* labelElse = tacCreate(TAC_LABEL, targetElse, 0, 0);
-	TAC* labelEnd = tacCreate(TAC_LABEL, targetEnd, 0, 0);
-
-	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(expr ,jumpElse), then), jumpEnd), labelElse), els), labelEnd);
-}
 
 TAC* makeOps(int type, TAC* op1, TAC* op2) {
 	TAC* codeList;
 	codeList = tacCreate(type, makeTemp(), op1? op1->res : 0, op2? op2->res : 0);
-	codeList = tacJoin(op2, codeList);
-	codeList = tacJoin(op1, codeList);
+	codeList = tacJoin(op2,codeList);
+	codeList = tacJoin(op1,codeList);
 	return codeList;
 }
 void tacPrintSingle(TAC *tac)
@@ -162,9 +154,10 @@ void tacPrintSingle(TAC *tac)
 	{
 		case TAC_SYMBOL: fprintf(stderr, "TAC_SYMBOL"); break;
 				case TAC_SYMBOL_LIT: fprintf(stderr, "TAC_SYMBOL_LIT"); break;
-		case TAC_ADD: fprintf(stderr, "TAC_ADD"); break;
-		case TAC_SUB: fprintf(stderr, "TAC_SUB"); break;
-		case TAC_MUL: fprintf(stderr, "TAC_MUL"); break;
+		case TAC_OP_PLUS: fprintf(stderr, "TAC_OP_PLUS"); break;
+		case TAC_OP_MINUS: fprintf(stderr, "TAC_OP_MINUS"); break;
+		case TAC_OP_MULT: fprintf(stderr, "TAC_OP_MULT"); break;
+		case TAC_OP_DIV: fprintf(stderr, "TAC_OP_DIV"); break;
 		case TAC_OP_LES: fprintf(stderr, "TAC_OP_LES"); break;
 		case TAC_OP_GRE: fprintf(stderr, "TAC_OP_GRE"); break;
 		case TAC_OP_LE: fprintf(stderr, "TAC_OP_LE"); break;
@@ -180,12 +173,10 @@ void tacPrintSingle(TAC *tac)
 			break;
 		case TAC_OUT: fprintf(stderr,"TAC_PRINT");
 			break;
-
 		case TAC_MOVE: fprintf(stderr,"TAC_MOVE");
 			break;
 		case TAC_MOVE_IND: fprintf(stderr,"TAC_MOVE_IND");
 			break;
-
 		case TAC_PARAM: fprintf(stderr,"TAC_PARAM");
 			break;
 		case TAC_FOR: fprintf(stderr,"TAC_FOR");
@@ -240,23 +231,57 @@ TAC* makeWhile(TAC* expr, TAC* cmd) {
 
 	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(labelBegin, expr), jumpEnd), cmd), jumpBegin), labelEnd);
 }
- TAC *makeFor(HASH *symbol,TAC *exp1, TAC* exp2, TAC *cmd){
- TAC *result=0;
- TAC *exp = makeOps(TAC_OP_LES,exp1,exp2);
- result = makeWhile(exp, cmd);
- result->type=TAC_FOR;
- return result;
- }
+TAC* makeIf(TAC* expr, TAC* then, TAC* els) {
+	HASH* targetElse = makeLabel();
+	HASH* targetEnd = makeLabel();
+
+	TAC* jumpElse = tacCreate(TAC_JFALSE, targetElse, expr->res, 0);
+	TAC* jumpEnd = tacCreate(TAC_JUMP, targetEnd, 0, 0);
+
+	TAC* labelElse = tacCreate(TAC_LABEL, targetElse, 0, 0);
+	TAC* labelEnd = tacCreate(TAC_LABEL, targetEnd, 0, 0);
+
+	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(expr ,jumpElse), then), jumpEnd), labelElse), els), labelEnd);
+}
+
+ /*TAC *makeFor(HASH *symbol,TAC *exp1, TAC* exp2, TAC *cmd){
+ 
+ //declaracao inicial
+ 
+ TAC *inicio = tacJoin(exp1,tacCreate(TAC_DECL_VAR, symbol, exp1? exp1->res:0, 0));
+ HASH *targetLoop = makeLabel();
+ TAC *labelLoop = tacCreate(TAC_LABEL, targetLoop, 0, 0);
+ HASH *Um = makeUm();
+ TAC *um= tacCreate(TAC_SYMBOL_LIT, Um, 0, 0);
+ tacPrintSingle(um);
+  tacPrintSingle(exp1);
+ TAC *sum = makeOps(TAC_ADD, exp1,um);
+   tacPrintSingle(sum);
+ TAC *exp = makeOps(TAC_OP_GE,sum,exp2);
+   tacPrintSingle(exp);
+ HASH * targetEnd = makeLabel();
+ TAC *jumpBegin = tacCreate(TAC_JUMP, targetLoop, 0, 0);
+ tacPrintSingle(jumpBegin);
+ TAC *jumpElse = tacCreate(TAC_JFALSE, targetLoop, exp?exp->res:0,0);
+ tacPrintSingle(jumpElse);
+ TAC *labelEnd = tacCreate(TAC_LABEL, targetEnd, 0 ,0);
+ tacPrintSingle(labelEnd);
+ 
+ TAC *r1 = tacJoin(tacJoin(tacJoin(tacJoin(inicio,labelLoop),exp),cmd),labelEnd);
+   fprintf(stderr,"aqui");
+ return r1;
+ }*/
 TAC *tacJoin(TAC *l1, TAC *l2) {
 	if(!l1) return l2;
 	if(!l2) return l1;
 
 	TAC *t = l2;
 
-	while(t->prev) {
+	while(t->prev && t!=t->prev) {
+//		fprintf(stderr,"prev %s",l2->res->text);
 		t = t->prev;
 	}
-	t->prev = l1;
+	if(t) t->prev = l1;
 	l1->next = l2;
 	return l2;
 }
